@@ -1,0 +1,16 @@
+{
+  "name": "JurIA — Agente Jurídico con IA",
+  "short_name": "JurIA",
+  "description": "Calculá intereses y plazos procesales, analizá escritos y consultá derecho argentino con IA.",
+  "start_url": "./agente-juria.html",
+  "display": "standalone",
+  "background_color": "#160B10",
+  "theme_color": "#7C2136",
+  "lang": "es-AR",
+  "icons": [
+    { "src": "favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "favicon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

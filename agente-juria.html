@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Agente jurídico con IA para abogados, procuradores y jueces argentinos: calculá intereses y plazos procesales, analizá escritos y consultá derecho argentino. Tus datos siempre en tu navegador.">
+<title>JurIA — Agente Jurídico con IA</title>
+<meta name="theme-color" content="#7C2136">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="tracker.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#7C2136;--brand-dark:#4A1220;--brand-light:#A84459;
+  --accent:#C9A227;--accent-light:#E3C55C;
+  --bg:#FBF8F9;--bg-alt:#F6EDF0;--card:#FFFFFF;
+  --text:#2A1A1F;--muted:#7A6068;--border:#EBDCE1;
+  --ok:#3E7A45;--warn:#B0872E;--bad:#B04A3A;
+  --shadow:0 2px 6px rgba(74,18,32,.05),0 14px 34px rgba(74,18,32,.09);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#160B10;--bg-alt:#1F1016;--card:#26141B;
+  --text:#F6EDF0;--muted:#BC9BA6;--border:#40222D;
+  --shadow:0 2px 6px rgba(0,0,0,.25),0 14px 34px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;transition:background .25s,color .25s}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2}
+button{font-family:var(--sans)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.topbar{max-width:1080px;margin:0 auto;padding:13px 20px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:600;font-size:20px;text-decoration:none;color:var(--text)}
+.brand img{width:32px;height:32px;border-radius:9px}
+.brand em{font-style:italic;color:var(--accent)}
+.topbar .right{margin-left:auto;display:flex;gap:9px;align-items:center}
+.icon-btn{background:var(--bg-alt);border:1px solid var(--border);border-radius:9px;width:36px;height:36px;cursor:pointer;font-size:15px;color:var(--text)}
+.top-link{font-size:13px;color:var(--muted);text-decoration:none}
+.top-link:hover{color:var(--text)}
+
+.tab-row{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 4px}
+.tab-btn{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:9px 15px;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s}
+.tab-btn:hover{color:var(--text);border-color:var(--brand-light)}
+.tab-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(124,33,54,.28)}
+.tab-btn .soon-tag{font-size:9px;opacity:.75;margin-left:4px}
+
+.keybox{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:18px 0 26px;display:flex;gap:12px;align-items:end;flex-wrap:wrap;box-shadow:var(--shadow)}
+.keybox .f{flex:1;min-width:220px}
+.keybox label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px}
+.keybox input,.keybox select{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:var(--sans)}
+.keybox .hint{font-size:11.5px;color:var(--muted);width:100%}
+.keybox .hint a{color:var(--accent)}
+
+.panel{display:none}
+.panel.active{display:block}
+.panel h2{font-size:24px;margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);margin-bottom:18px;max-width:640px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border-radius:9px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14.5px;font-family:var(--sans)}
+.field textarea{resize:vertical;min-height:70px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brand-light)}
+.grid-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 20px;border-radius:11px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:transform .15s,box-shadow .15s}
+.btn-brand{background:var(--brand);color:#fff;box-shadow:0 3px 8px rgba(124,33,54,.22),0 10px 24px rgba(124,33,54,.26)}
+.btn-brand:hover{transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--brand);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--brand-light)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.check-row{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);margin-bottom:14px}
+.check-row input{width:auto}
+
+.dropzone{border:2px dashed var(--border);border-radius:14px;padding:34px 16px;text-align:center;cursor:pointer;color:var(--muted);font-size:14px;transition:all .2s}
+.dropzone:hover{border-color:var(--brand-light);background:var(--bg-alt)}
+.dropzone.small{padding:18px 12px;font-size:13px}
+
+table.data{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:14px}
+table.data th{text-align:left;padding:9px 10px;border-bottom:2px solid var(--border);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+table.data td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data tr:hover td{background:var(--bg-alt)}
+.del{background:none;border:none;color:var(--bad);cursor:pointer;font-size:14px}
+.empty{font-size:13.5px;color:var(--muted);padding:18px 6px;text-align:center}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px}
+.pill.ok{background:rgba(62,122,69,.14);color:var(--ok)}
+.pill.warn{background:rgba(176,135,46,.14);color:var(--warn)}
+.pill.bad{background:rgba(176,74,58,.14);color:var(--bad)}
+.pill.info{background:rgba(124,33,54,.14);color:var(--brand)}
+.result-box{background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-top:14px;font-size:14px}
+.result-box .big{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--brand)}
+.row-mini{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px dashed var(--border)}
+.row-mini:last-child{border-bottom:none}
+.disclaimer{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.55}
+.loading{display:inline-flex;gap:4px;align-items:center}
+.loading span{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:bnc 1.2s ease-in-out infinite}
+.loading span:nth-child(2){animation-delay:.2s}.loading span:nth-child(3){animation-delay:.4s}
+@keyframes bnc{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
+
+/* Chat */
+.chat-box{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;height:560px}
+.chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.cmsg{max-width:82%;padding:12px 15px;border-radius:14px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.cmsg.user{background:var(--bg-alt);align-self:flex-end;border-bottom-right-radius:5px}
+.cmsg.ai{background:var(--brand);color:#fff;align-self:flex-start;border-bottom-left-radius:5px}
+.cmsg.ai b{color:var(--accent-light)}
+.chat-input-row{border-top:1px solid var(--border);padding:12px;display:flex;gap:8px;align-items:end}
+.chat-input-row textarea{flex:1;padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:var(--sans);resize:none;min-height:44px;max-height:120px}
+.attach-btn{background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;width:44px;height:44px;cursor:pointer;font-size:16px;flex-shrink:0;color:var(--text)}
+.attach-pill{font-size:12px;color:var(--muted);padding:0 12px 8px}
+
+@media(max-width:640px){
+  .tab-btn{padding:8px 11px;font-size:12px}
+  .panel h2{font-size:20px}
+  .chat-box{height:70vh}
+  .cmsg{max-width:92%}
+  .card{padding:16px}
+  table.data{font-size:12px}
+  table.data td,table.data th{padding:7px 6px}
+}
+/* Login */
+.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:44px 36px;max-width:420px;width:100%;text-align:center}
+.login-card img{width:56px;height:56px;border-radius:14px;margin-bottom:16px;box-shadow:0 4px 12px rgba(74,18,32,.2)}
+.login-card h1{font-family:var(--serif);font-size:26px;margin-bottom:6px}
+.login-card h1 em{font-style:italic;color:var(--accent)}
+.login-card .sub{font-size:14px;color:var(--muted);margin-bottom:26px;line-height:1.6}
+#google-signin-btn{display:flex;justify-content:center;margin-bottom:14px;min-height:44px}
+#login-status{font-size:13px;color:var(--muted);min-height:18px}
+.login-note{font-size:12px;color:var(--muted);margin-top:18px;border-top:1px dashed var(--border);padding-top:14px;line-height:1.6}
+.user-chip{position:fixed;bottom:14px;right:14px;z-index:60;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--muted);box-shadow:var(--shadow);display:none;align-items:center;gap:10px}
+.user-chip b{color:var(--text);font-weight:600}
+.user-chip button{background:none;border:none;color:var(--bad);cursor:pointer;font-size:12px;font-family:var(--sans)}
+.lab-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;text-align:left}
+.lab-pill{background:var(--bg-alt);border:1px solid var(--border);border-radius:9px;padding:8px 12px;font-size:12px;color:var(--muted)}
+.lab-paso{text-align:left;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+.lab-key-input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px;font-family:monospace}
+.lab-enter-btn{width:100%;margin-top:18px;background:var(--brand);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:opacity .2s}
+.lab-enter-btn:disabled{opacity:.45;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card" id="loginCard">
+    <img src="favicon-192.png" alt="JurIA">
+    <h1>Jur<em>IA</em></h1>
+    <p class="sub">Tu agente jurídico con IA.<br>Para abogados, procuradores y magistrados argentinos.</p>
+    <div class="lab-pills">
+      <div class="lab-pill">⚖️ Chat jurídico IA</div>
+      <div class="lab-pill">🧮 Intereses y actualización</div>
+      <div class="lab-pill">📅 Plazos procesales</div>
+      <div class="lab-pill">📄 Analizador de escritos</div>
+    </div>
+    <p class="lab-paso">Paso 1 — Identificate con Google</p>
+    <div id="google-signin-btn"></div>
+    <p id="login-status"></p>
+    <p class="lab-paso">Paso 2 — Tu API key de Anthropic</p>
+    <input type="password" class="lab-key-input" id="labKeyInput" placeholder="sk-ant-api03-..." autocomplete="off">
+    <p style="text-align:left;font-size:12px;color:var(--muted);margin-top:8px;">Obtené tu key gratis en <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent);">console.anthropic.com</a> →</p>
+    <button class="lab-enter-btn" id="labEnterBtn" disabled>Ingresar al agente →</button>
+    <p class="login-note">🎁 <b>5 días de prueba gratis</b> con acceso completo. 🔒 <b>Secreto profesional:</b> la API key y tus consultas se guardan solo en tu navegador. Este sitio no tiene backend ni registra el contenido de tus causas.</p>
+  </div>
+  <div class="login-card" id="trialCard" style="display:none;">
+    <img src="favicon-192.png" alt="JurIA">
+    <h1>Tu prueba terminó</h1>
+    <p class="sub">Los 5 días de prueba gratuita de JurIA llegaron a su fin. Para seguir usándolo con onboarding 1 a 1 y soporte por WhatsApp, pasate al Plan Estudio.</p>
+    <a class="btn btn-brand" style="width:100%;justify-content:center;text-decoration:none;" href="https://wa.me/5493435344597?text=Hola,%20se%20me%20venci%C3%B3%20la%20prueba%20de%20JurIA%20y%20quiero%20contratar%20el%20Plan%20Estudio">Contratar por WhatsApp →</a>
+    <div style="margin-top:18px; padding-top:16px; border-top:1px dashed var(--border);">
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;">¿Ya tenés tu código de acceso? Ingresalo acá</p>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="labAccessCodeInput" placeholder="Código de acceso" autocomplete="off" class="lab-key-input" style="font-family:inherit;">
+        <button id="labAccessCodeBtn" style="background:var(--accent,var(--brand)); color:#fff; border:none; border-radius:10px; padding:0 16px; font-weight:600; font-size:13px; cursor:pointer; white-space:nowrap;">Desbloquear</button>
+      </div>
+      <p id="labAccessCodeStatus" style="font-size:12px; margin-top:8px; min-height:16px;"></p>
+    </div>
+    <p class="login-note">¿Creés que es un error? Escribinos por el mismo WhatsApp y lo revisamos.</p>
+  </div>
+</div>
+
+<div class="user-chip" id="userChip"><span id="userChipText"></span><button id="logoutBtn">Salir</button></div>
+
+<header class="top">
+  <div class="topbar">
+    <a href="index.html" class="brand"><img src="favicon-192.png" alt=""> Jur<em>IA</em></a>
+    <div class="right">
+      <a href="guia-completa.html" class="top-link">Guía</a>
+      <button class="icon-btn" id="themeToggle" title="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px;margin-right:4px;flex-shrink:0"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Chat jurídico</button>
+    <button class="tab-btn" data-tab="intereses">🧮 Intereses</button>
+    <button class="tab-btn" data-tab="plazos">📅 Plazos procesales</button>
+    <button class="tab-btn" data-tab="agenda">⏰ Agenda de vencimientos</button>
+    <button class="tab-btn" data-tab="analizador">📄 Analizador de escritos</button>
+    <button class="tab-btn" data-tab="jurisprudencia">📚 Jurisprudencia <span class="soon-tag">fase 2</span></button>
+    <button class="tab-btn" data-tab="modelos">📝 Modelos de escritos <span class="soon-tag">fase 2</span></button>
+    <button class="tab-btn" data-tab="memoria">🔄 Backup</button>
+  </div>
+
+  <div class="keybox">
+    <div class="f">
+      <label for="apiKeyInput">Tu API key de Anthropic</label>
+      <input id="apiKeyInput" type="password" placeholder="sk-ant-..." autocomplete="off">
+    </div>
+    <div class="f" style="max-width:280px;">
+      <label for="modelSelect">Modelo</label>
+      <select id="modelSelect">
+        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (rápido y económico)</option>
+        <option value="claude-sonnet-5">Claude Sonnet 5 (escritos y análisis complejos)</option>
+      </select>
+    </div>
+    <p class="hint">Se guarda solo en tu navegador y se borra al cerrar la pestaña. La generás gratis en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</p>
+  </div>
+
+  <!-- CHAT -->
+  <section class="panel active" id="panel-chat">
+    <div class="chat-box">
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="cmsg ai"><b>JurIA:</b> Hola ⚖️ Consultame sobre derecho argentino, estrategia procesal, redacción de escritos, cálculo de intereses o plazos — o adjuntá un PDF de una demanda, contrato o sentencia y lo analizo en la conversación.</div>
+      </div>
+      <div class="attach-pill" id="attachPill" style="display:none;"></div>
+      <div class="chat-input-row">
+        <button class="attach-btn" id="attachBtn" title="Adjuntar PDF o imagen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px"><path d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+        <input type="file" id="chatFile" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+        <textarea id="chatInput" placeholder="Ej: ¿Qué requisitos tiene la medida cautelar innovativa en el CPCCN? ¿Y en Entre Ríos?"></textarea>
+        <button class="btn btn-brand" id="chatSendBtn">Enviar</button>
+      </div>
+    </div>
+    <p class="disclaimer">⚠️ JurIA es una herramienta de apoyo profesional. Verificá siempre citas normativas y jurisprudenciales en las fuentes oficiales (SAIJ, Infoleg, boletines) antes de presentar un escrito — la IA puede equivocarse o citar fallos inexistentes.</p>
+  </section>
+
+  <!-- INTERESES -->
+  <section class="panel" id="panel-intereses">
+    <h2>🧮 Cálculo de intereses y actualización</h2>
+    <p class="sub">Actualizá un crédito entre dos fechas. Con tasa mensual propia el cálculo es exacto; con tasas de referencia (activa BNA, pasiva, CER/UVA) la IA estima y te indica dónde verificar el número oficial.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field"><label for="inConcepto">Concepto / carátula (opcional)</label><input id="inConcepto" type="text" placeholder="Ej: Pérez c/ González s/ daños"></div>
+        <div class="field"><label for="inCapital">Capital ($)</label><input id="inCapital" type="number" placeholder="1500000"></div>
+        <div class="field"><label for="inDesde">Desde</label><input id="inDesde" type="date"></div>
+        <div class="field"><label for="inHasta">Hasta</label><input id="inHasta" type="date"></div>
+        <div class="field">
+          <label for="inTasa">Tasa</label>
+          <select id="inTasa">
+            <option value="custom">Tasa mensual propia (%) — cálculo exacto</option>
+            <option value="activa">Tasa activa BNA (estimación IA)</option>
+            <option value="pasiva">Tasa pasiva BCRA (estimación IA)</option>
+            <option value="cer">CER (estimación IA)</option>
+            <option value="uva">UVA (estimación IA)</option>
+            <option value="ley27802">Créditos laborales Ley 27.802 (estimación IA)</option>
+          </select>
+        </div>
+        <div class="field" id="inCustomWrap"><label for="inTasaCustom">Tasa mensual (%)</label><input id="inTasaCustom" type="number" step="0.01" placeholder="Ej: 4.5"></div>
+      </div>
+      <div class="check-row"><input type="checkbox" id="inCapitalizar"><label for="inCapitalizar" style="margin:0;font-weight:500;">Capitalizar mensualmente (interés compuesto) — solo con tasa propia</label></div>
+      <button class="btn btn-brand" id="inCalcularBtn">Calcular intereses</button>
+      <div id="inResult"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px;">Liquidaciones guardadas</h3>
+      <div id="inTablaWrap"><p class="empty">Todavía no guardaste ninguna liquidación.</p></div>
+    </div>
+    <p class="disclaimer">⚠️ Las estimaciones con tasas de referencia son orientativas: la IA no tiene los índices oficiales al día. Para liquidaciones a presentar en juicio, verificá con la <a href="https://www.bcra.gob.ar/en/interest-calculator-for-employees-legal-claims/" target="_blank" style="color:var(--accent);">calculadora del BCRA</a> (Ley 27.802) o las calculadoras de tu colegio de abogados. El cálculo con tasa mensual propia sí es aritmética exacta sobre los datos que cargaste.</p>
+  </section>
+
+  <!-- PLAZOS -->
+  <section class="panel" id="panel-plazos">
+    <h2>📅 Calculadora de plazos procesales</h2>
+    <p class="sub">Calculá el vencimiento de un plazo en días hábiles o corridos, descontando fines de semana, feriados nacionales y feria judicial. Cálculo determinístico, sin IA.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field"><label for="plNotif">Fecha de notificación</label><input id="plNotif" type="date"></div>
+        <div class="field"><label for="plDias">Cantidad de días</label><input id="plDias" type="number" placeholder="Ej: 15" min="1"></div>
+        <div class="field">
+          <label for="plTipo">Tipo de plazo</label>
+          <select id="plTipo">
+            <option value="habiles">Días hábiles judiciales</option>
+            <option value="corridos">Días corridos</option>
+          </select>
+        </div>
+      </div>
+      <div class="check-row"><input type="checkbox" id="plFeriaEnero" checked><label for="plFeriaEnero" style="margin:0;font-weight:500;">Excluir feria judicial de enero</label></div>
+      <div class="field"><label for="plFeriaInvierno">Feria de invierno u otros días inhábiles (opcional, fechas AAAA-MM-DD separadas por coma)</label><input id="plFeriaInvierno" type="text" placeholder="Ej: 2026-07-13, 2026-07-14, 2026-07-15"></div>
+      <button class="btn btn-brand" id="plCalcularBtn">Calcular vencimiento</button>
+      <div id="plResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ Incluye los feriados nacionales inamovibles y trasladables conocidos de 2026. Los feriados provinciales, días de asueto judicial y fechas de feria varían por jurisdicción: agregalos a mano en el campo de días inhábiles. Verificá siempre contra la acordada de tu tribunal — el vencimiento de un plazo es responsabilidad exclusiva del profesional.</p>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="panel" id="panel-agenda">
+    <h2>⏰ Agenda de vencimientos</h2>
+    <p class="sub">Anotá los vencimientos de tus causas y velos ordenados con semáforo: vencido, próximo (5 días) o en término.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field"><label for="agCaratula">Carátula / referencia</label><input id="agCaratula" type="text" placeholder="Ej: Pérez c/ González — contestar demanda"></div>
+        <div class="field"><label for="agFecha">Fecha de vencimiento</label><input id="agFecha" type="date"></div>
+        <div class="field"><label for="agNota">Nota (opcional)</label><input id="agNota" type="text" placeholder="Ej: Juzgado Civil N°2, expte 4521/26"></div>
+      </div>
+      <button class="btn btn-brand" id="agAgregarBtn">+ Agregar vencimiento</button>
+    </div>
+    <div class="card">
+      <div id="agTablaWrap"><p class="empty">Sin vencimientos cargados. Los que calcules en Plazos también podés guardarlos acá.</p></div>
+    </div>
+    <p class="disclaimer">⚠️ La agenda vive en tu navegador (y en tu Google Sheets si conectaste el backup). No reemplaza el control de plazos del sistema de gestión de tu estudio ni la MEV/portal de tu jurisdicción.</p>
+  </section>
+
+  <!-- ANALIZADOR -->
+  <section class="panel" id="panel-analizador">
+    <h2>📄 Analizador de escritos y documentos</h2>
+    <p class="sub">Subí una demanda, contestación, contrato, sentencia o cédula en PDF. La IA la resume, detecta puntos fuertes y débiles, plazos que corren y riesgos.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field">
+          <label for="anTipo">Tipo de documento</label>
+          <select id="anTipo">
+            <option value="Demanda">Demanda</option>
+            <option value="Contestación de demanda">Contestación de demanda</option>
+            <option value="Contrato">Contrato</option>
+            <option value="Sentencia">Sentencia / resolución</option>
+            <option value="Cédula o notificación">Cédula / notificación</option>
+            <option value="Otro escrito judicial">Otro escrito judicial</option>
+          </select>
+        </div>
+        <div class="field"><label for="anPregunta">Consulta específica (opcional)</label><input id="anPregunta" type="text" placeholder="Ej: ¿qué excepciones previas me conviene oponer?"></div>
+      </div>
+      <div class="dropzone" id="anDrop">📎 Arrastrá el PDF acá o hacé clic para elegirlo<br><span style="font-size:12px;">También acepta foto/imagen del documento</span></div>
+      <input type="file" id="anFile" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+      <p id="anFileName" style="font-size:12.5px;color:var(--muted);margin-top:10px;min-height:16px;"></p>
+      <button class="btn btn-brand" id="anAnalizarBtn" style="margin-top:6px;">Analizar documento</button>
+      <div id="anResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ El análisis es un borrador de trabajo para el profesional — no un dictamen. La IA puede omitir cuestiones o citar mal: leé siempre el documento original completo antes de decidir estrategia. El PDF se procesa en tu navegador y va directo a la API de Anthropic; no pasa por servidores nuestros.</p>
+  </section>
+
+  <!-- JURISPRUDENCIA (fase 2) -->
+  <section class="panel" id="panel-jurisprudencia">
+    <h2>📚 Búsqueda de jurisprudencia</h2>
+    <p class="sub">Búsqueda asistida sobre fuentes abiertas (SAIJ, CSJN) con resumen de fallos.</p>
+    <div class="card"><p class="empty">🔄 Fase 2 del roadmap. Mientras tanto, podés pedirle al chat que te oriente sobre líneas jurisprudenciales y luego verificar en <a href="https://www.saij.gob.ar/" target="_blank" style="color:var(--accent);">SAIJ</a>.</p></div>
+  </section>
+
+  <!-- MODELOS (fase 2) -->
+  <section class="panel" id="panel-modelos">
+    <h2>📝 Modelos de escritos</h2>
+    <p class="sub">Biblioteca de modelos (demanda, cautelares, recursos) adaptados por la IA a tu caso y jurisdicción.</p>
+    <div class="card"><p class="empty">🔄 Fase 2 del roadmap. Mientras tanto, el chat ya redacta borradores de escritos si le pasás los hechos y la jurisdicción.</p></div>
+  </section>
+
+  <!-- MEMORIA / BACKUP -->
+  <section class="panel" id="panel-memoria">
+    <h2>🔄 Respaldo y sincronización</h2>
+    <p class="sub">Tus liquidaciones y vencimientos hoy viven solo en este navegador. Conectá tu Google Sheets para respaldo automático.</p>
+    <div class="card">
+      <button class="btn btn-brand" id="btnConectarGoogle">Conectar con Google</button>
+      <div id="googleConnectedBadge" style="display:none;align-items:center;gap:10px;margin-top:10px;">
+        <span class="pill ok">✅ Conectado</span>
+        <a id="linkAbrirHoja" href="#" target="_blank" class="top-link">Abrir hoja ↗</a>
+        <button class="btn btn-ghost" id="btnDesconectarGoogle" style="padding:6px 12px;font-size:12.5px;">Desconectar</button>
+      </div>
+      <p id="googleConnectStatus" style="font-size:12.5px;color:var(--muted);margin-top:10px;"></p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ---------- Login con Google (backend compartido de LABStudio) ---------- */
+const LAB_AUTH_URL = 'https://vps-6064485-x.dattaweb.com/webhook/labstudio-auth';
+const LAB_AUTH_PROXY = 'https://vps-6064485-x.dattaweb.com/webhook/labstudio-auth-proxy';
+const LAB_CLIENT_ID = '770326349307-rv1uf77479oc8ejrsh3hmhkieqgous2o.apps.googleusercontent.com';
+const LAB_PRODUCTO = 'juria';
+const LAB_USER_KEY = 'juria_user';
+const LAB_ACCESS_CODE_KEY = 'labstudio_access_code_juria';
+let labUserData = null;
+async function labValidarCodigoAcceso(){
+  const input = document.getElementById('labAccessCodeInput');
+  const statusEl = document.getElementById('labAccessCodeStatus');
+  const btn = document.getElementById('labAccessCodeBtn');
+  const code = input.value.trim();
+  if (!code){ statusEl.textContent = 'Ingresá tu código de acceso.'; statusEl.style.color = '#c0392b'; return; }
+  btn.disabled = true;
+  statusEl.textContent = 'Verificando…';
+  statusEl.style.color = 'var(--muted)';
+  try{
+    const res = await fetch(LAB_AUTH_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ access_token: code, product: LAB_PRODUCTO }) });
+    const data = await res.json();
+    if (!res.ok || data.error){
+      const motivos = { token_invalido:'Código inválido. Verificalo o escribinos por WhatsApp.', cuenta_suspendida:'Tu cuenta está suspendida. Escribinos por WhatsApp.', limite_alcanzado:'Alcanzaste el límite mensual. Escribinos por WhatsApp.' };
+      statusEl.textContent = motivos[data.motivo] || 'Código inválido o vencido.';
+      statusEl.style.color = '#c0392b';
+      btn.disabled = false;
+      return;
+    }
+    localStorage.setItem(LAB_ACCESS_CODE_KEY, code);
+    statusEl.textContent = '✅ Acceso desbloqueado. ¡Bienvenido!';
+    statusEl.style.color = 'var(--accent,var(--brand))';
+    setTimeout(()=>{
+      document.getElementById('loginOverlay').style.display = 'none';
+    }, 700);
+  }catch(e){
+    statusEl.textContent = '⚠️ No se pudo verificar. Probá de nuevo.';
+    statusEl.style.color = '#c0392b';
+    btn.disabled = false;
+    console.error('Error validando código de acceso:', e);
+  }
+}
+async function labVerificarCodigoGuardado(){
+  const code = localStorage.getItem(LAB_ACCESS_CODE_KEY);
+  if (!code) return;
+  try{
+    const res = await fetch(LAB_AUTH_PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ access_token: code, product: LAB_PRODUCTO }) });
+    const data = await res.json();
+    if (res.ok && !data.error){
+      document.getElementById('loginOverlay').style.display = 'none';
+    } else {
+      localStorage.removeItem(LAB_ACCESS_CODE_KEY);
+    }
+  }catch(e){ /* sin conexión: se revalida en el próximo intento */ }
+}
+function labMostrarSesion(data){
+  const overlay = document.getElementById('loginOverlay');
+  const chip = document.getElementById('userChip');
+  if (data.plan === 'gratis' && data.trialExpirado){
+    document.getElementById('loginCard').style.display = 'none';
+    document.getElementById('trialCard').style.display = 'block';
+    overlay.style.display = 'flex';
+    chip.style.display = 'none';
+    labVerificarCodigoGuardado();
+    return;
+  }
+  overlay.style.display = 'none';
+  chip.style.display = 'flex';
+  const plan = data.plan === 'gratis'
+    ? (typeof data.diasRestantes === 'number' ? 'Prueba · '+(data.diasRestantes <= 0 ? 'último día' : data.diasRestantes+' día'+(data.diasRestantes===1?'':'s')) : 'Prueba')
+    : 'Plan '+data.plan.charAt(0).toUpperCase()+data.plan.slice(1);
+  document.getElementById('userChipText').innerHTML = '<b>'+data.nombre+'</b> · '+plan;
+}
+async function labManejarLogin(response){
+  const st = document.getElementById('login-status');
+  st.textContent = 'Verificando…';
+  try{
+    const res = await fetch(LAB_AUTH_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ idToken: response.credential, producto: LAB_PRODUCTO }) });
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(data.error || 'Error');
+    localStorage.setItem(LAB_USER_KEY, JSON.stringify(data));
+    labUserData = data;
+    if (data.plan === 'gratis' && data.trialExpirado){ labMostrarSesion(data); return; }
+    st.textContent = data.esNuevo ? '✅ ¡Cuenta creada, '+data.nombre+'! Completá el paso 2 y entrá.' : '✅ ¡Hola de nuevo, '+data.nombre+'!';
+    document.getElementById('labEnterBtn').disabled = false;
+  }catch(e){
+    st.textContent = '⚠️ No se pudo verificar el ingreso. Probá de nuevo.';
+    console.error('Login:', e);
+  }
+}
+function labInitLogin(){
+  if (typeof google === 'undefined' || !google.accounts || !google.accounts.id){ setTimeout(labInitLogin, 300); return; }
+  google.accounts.id.initialize({ client_id: LAB_CLIENT_ID, callback: labManejarLogin });
+  const btn = document.getElementById('google-signin-btn');
+  if (btn) google.accounts.id.renderButton(btn, { theme:'outline', size:'large', text:'continue_with', width: 300 });
+}
+document.getElementById('labEnterBtn').addEventListener('click', ()=>{
+  const k = document.getElementById('labKeyInput').value.trim();
+  if (k){
+    sessionStorage.setItem('juria_api_key', k);
+    const appInput = document.getElementById('apiKeyInput');
+    if (appInput){ appInput.value = k; appInput.dispatchEvent(new Event('input')); }
+  }
+  if (labUserData) labMostrarSesion(labUserData);
+});
+document.getElementById('labAccessCodeBtn').addEventListener('click', labValidarCodigoAcceso);
+document.getElementById('labAccessCodeInput').addEventListener('keydown', (e)=>{ if (e.key==='Enter') labValidarCodigoAcceso(); });
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+  if (!confirm('¿Cerrar sesión?')) return;
+  localStorage.removeItem(LAB_USER_KEY);
+  document.getElementById('userChip').style.display = 'none';
+  document.getElementById('trialCard').style.display = 'none';
+  document.getElementById('loginCard').style.display = 'block';
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('login-status').textContent = '';
+  document.getElementById('labEnterBtn').disabled = true;
+});
+(function(){
+  const savedKey = sessionStorage.getItem('juria_api_key');
+  if (savedKey) document.getElementById('labKeyInput').value = savedKey;
+  const saved = localStorage.getItem(LAB_USER_KEY);
+  if (saved){ try{ labMostrarSesion(JSON.parse(saved)); }catch(e){} }
+  labInitLogin();
+})();
+
+/* ---------- Estado y helpers ---------- */
+const $ = id => document.getElementById(id);
+const modelSelect = $('modelSelect');
+const fmt = n => '$' + Number(n||0).toLocaleString('es-AR',{maximumFractionDigits:2});
+const fmtFecha = iso => { const [y,m,d] = iso.split('-'); return d+'/'+m+'/'+y; };
+
+const savedTheme = localStorage.getItem('juria_theme') || 'light';
+if (savedTheme==='dark') document.documentElement.setAttribute('data-theme','dark');
+const SOL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+const LUNA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+$('themeToggle').innerHTML = savedTheme==='dark' ? SOL : LUNA;
+$('themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme')==='dark' ? 'dark':'light';
+  const next = cur==='dark' ? 'light':'dark';
+  if (next==='dark') document.documentElement.setAttribute('data-theme','dark');
+  else document.documentElement.removeAttribute('data-theme');
+  localStorage.setItem('juria_theme', next);
+  $('themeToggle').innerHTML = next==='dark' ? SOL : LUNA;
+});
+
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  $('panel-'+b.dataset.tab).classList.add('active');
+}));
+
+$('apiKeyInput').value = sessionStorage.getItem('juria_api_key') || '';
+$('apiKeyInput').addEventListener('input', e => sessionStorage.setItem('juria_api_key', e.target.value.trim()));
+const getApiKey = () => sessionStorage.getItem('juria_api_key') || $('apiKeyInput').value.trim();
+
+async function callClaude(messages, systemPrompt, maxTokens = 1500){
+  const key = getApiKey();
+  if (!key) throw new Error('NO_KEY');
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'content-type':'application/json',
+      'x-api-key':key,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body: JSON.stringify({ model: modelSelect.value, max_tokens: maxTokens, system: systemPrompt, messages })
+  });
+  if (!res.ok){ const t = await res.text(); throw new Error('API_ERROR: '+res.status+' '+t); }
+  const data = await res.json();
+  return (data.content||[]).map(c=>c.text||'').join('\n');
+}
+function errMsg(e){
+  if (e.message==='NO_KEY') return '⚠️ Cargá tu API key de Anthropic arriba para usar la IA.';
+  if (e.message.includes('401')) return '⚠️ API key inválida. Revisala en console.anthropic.com.';
+  if (e.message.includes('429')) return '⚠️ Límite de uso alcanzado. Esperá un momento o revisá tu crédito.';
+  return '⚠️ Error al consultar la IA: '+e.message.slice(0,140);
+}
+async function fileToBase64(file){
+  return new Promise((ok,err)=>{ const r=new FileReader(); r.onload=()=>ok(r.result.split(',')[1]); r.onerror=err; r.readAsDataURL(file); });
+}
+async function pdfToText(file){
+  const buf = await file.arrayBuffer();
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
+  const pdf = await pdfjsLib.getDocument({data:buf}).promise;
+  let out='';
+  for (let i=1;i<=Math.min(pdf.numPages,25);i++){
+    const page = await pdf.getPage(i);
+    const tc = await page.getTextContent();
+    out += tc.items.map(it=>it.str).join(' ')+'\n';
+  }
+  return out.trim();
+}
+async function buildFileBlock(file){
+  if (file.type==='application/pdf'){
+    const text = await pdfToText(file);
+    if (text.length > 40) return { type:'text', text:'[Contenido del PDF adjunto "'+file.name+'"]:\n'+text.slice(0,40000) };
+    const b64 = await fileToBase64(file);
+    return { type:'document', source:{ type:'base64', media_type:'application/pdf', data:b64 } };
+  }
+  const b64 = await fileToBase64(file);
+  return { type:'image', source:{ type:'base64', media_type:file.type, data:b64 } };
+}
+
+/* ---------- Chat ---------- */
+const SYSTEM_CHAT = `Sos JurIA, asistente jurídico con IA para abogados, procuradores y magistrados de Argentina. Ayudás con: consultas de derecho argentino de fondo y procesal (nacional y provincial), estrategia procesal, redacción de borradores de escritos (demandas, contestaciones, cautelares, recursos, cartas documento), cálculo orientativo de intereses y plazos, y análisis de documentos adjuntos (PDF o foto de demandas, contratos, sentencias, cédulas). Hablás con profesionales del derecho: usá lenguaje técnico preciso, en español rioplatense, claro y al grano. Citá artículos de códigos y leyes cuando corresponda (CCyC, CPCCN, LCT, CP, códigos provinciales), aclarando la jurisdicción. REGLAS CRÍTICAS: 1) NUNCA inventes citas de jurisprudencia con carátula, tribunal y fecha como si fueran verificadas — si mencionás líneas jurisprudenciales, aclarà que el profesional debe verificar los fallos en SAIJ, CSJN o su editorial jurídica antes de citarlos en un escrito. 2) Si una cuestión depende de normativa provincial o de acordadas locales que podés no tener actualizadas, decilo. 3) Tus respuestas son apoyo al criterio profesional, no dictamen ni asesoramiento al cliente final. 4) Si te piden un escrito, entregá un borrador completo y bien estructurado, con los espacios [ENTRE CORCHETES] para los datos que falten.`;
+let chatHistory = [];
+let chatAttach = null;
+
+$('attachBtn').addEventListener('click', ()=>$('chatFile').click());
+$('chatFile').addEventListener('change', e => {
+  chatAttach = e.target.files[0] || null;
+  $('attachPill').style.display = chatAttach ? 'block':'none';
+  $('attachPill').textContent = chatAttach ? '📎 '+chatAttach.name+' — se enviará con tu próximo mensaje' : '';
+});
+function addMsg(cls, html){
+  const d = document.createElement('div');
+  d.className = 'cmsg '+cls;
+  d.innerHTML = html;
+  $('chatMsgs').appendChild(d);
+  $('chatMsgs').scrollTop = $('chatMsgs').scrollHeight;
+  return d;
+}
+function mdLite(t){
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+async function sendChat(){
+  const text = $('chatInput').value.trim();
+  if (!text && !chatAttach) return;
+  $('chatInput').value='';
+  addMsg('user', mdLite(text || '(archivo adjunto)'));
+  const content = [];
+  if (chatAttach){ try{ content.push(await buildFileBlock(chatAttach)); }catch(e){ addMsg('ai','⚠️ No pude leer el adjunto: '+e.message); } chatAttach=null; $('chatFile').value=''; $('attachPill').style.display='none'; }
+  content.push({ type:'text', text: text || 'Analizá el archivo adjunto.' });
+  chatHistory.push({ role:'user', content });
+  const loader = addMsg('ai','<span class="loading"><span></span><span></span><span></span></span>');
+  try{
+    const reply = await callClaude(chatHistory, SYSTEM_CHAT, 2000);
+    chatHistory.push({ role:'assistant', content: reply });
+    if (chatHistory.length > 16) chatHistory = chatHistory.slice(-16);
+    loader.innerHTML = '<b>JurIA:</b> '+mdLite(reply);
+  }catch(e){
+    chatHistory.pop();
+    loader.innerHTML = errMsg(e);
+  }
+}
+$('chatSendBtn').addEventListener('click', sendChat);
+$('chatInput').addEventListener('keydown', e => { if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChat(); } });
+
+/* ---------- Sincronización con Google Sheets propio (mismo patrón que BarIA/CampoIA) ---------- */
+const GOOGLE_CLIENT_ID = LAB_CLIENT_ID;
+let googleAccessToken = localStorage.getItem('juria_google_token') || '';
+let googleTokenExpira = parseInt(localStorage.getItem('juria_google_token_expira') || '0');
+let juriaSheetId = localStorage.getItem('juria_sheet_id') || '';
+let googleTokenClient = null;
+
+function inicializarGoogleAuth(){
+  if (typeof google === 'undefined' || !google.accounts){ setTimeout(inicializarGoogleAuth, 300); return; }
+  googleTokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file',
+    callback: ''
+  });
+  if (juriaSheetId) actualizarUIGoogleConectado();
+}
+inicializarGoogleAuth();
+
+$('btnConectarGoogle').addEventListener('click', () => {
+  if (!googleTokenClient){ alert('La conexión con Google todavía está cargando, esperá unos segundos e intentá de nuevo.'); return; }
+  const msg = $('googleConnectStatus');
+  msg.textContent = 'Conectando con Google...';
+  googleTokenClient.callback = async (resp) => {
+    if (resp.error){ msg.textContent = '⚠️ No se pudo conectar: ' + resp.error; return; }
+    googleAccessToken = resp.access_token;
+    googleTokenExpira = Date.now() + (resp.expires_in * 1000);
+    localStorage.setItem('juria_google_token', googleAccessToken);
+    localStorage.setItem('juria_google_token_expira', String(googleTokenExpira));
+    if (!juriaSheetId) await crearHojaJurIA();
+    else { msg.textContent = '✅ Conectado con Google Sheets.'; actualizarUIGoogleConectado(); }
+  };
+  googleTokenClient.requestAccessToken({ prompt: juriaSheetId ? '' : 'consent' });
+});
+
+async function asegurarTokenValido(){
+  if (googleAccessToken && Date.now() < googleTokenExpira - 60000) return true;
+  return new Promise((resolve) => {
+    googleTokenClient.callback = (resp) => {
+      if (resp.error){ resolve(false); return; }
+      googleAccessToken = resp.access_token;
+      googleTokenExpira = Date.now() + (resp.expires_in * 1000);
+      localStorage.setItem('juria_google_token', googleAccessToken);
+      localStorage.setItem('juria_google_token_expira', String(googleTokenExpira));
+      resolve(true);
+    };
+    googleTokenClient.requestAccessToken({ prompt: '' });
+  });
+}
+
+const HOJAS_JURIA = {
+  intereses: { nombre: 'Liquidaciones_Intereses', headers: ['Fecha','Concepto','Capital','Tasa','Desde','Hasta','Interés','Total'] },
+  agenda: { nombre: 'Agenda_Vencimientos', headers: ['Fecha carga','Carátula','Vencimiento','Nota'] },
+  analisis: { nombre: 'Analisis_Documentos', headers: ['Fecha','Documento','Tipo','Síntesis'] }
+};
+
+async function crearHojaJurIA(){
+  const msg = $('googleConnectStatus');
+  msg.textContent = 'Creando tu hoja de cálculo...';
+  try{
+    const resCrear = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + googleAccessToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        properties: { title: 'JurIA - Mis Datos' },
+        sheets: Object.values(HOJAS_JURIA).map(h => ({ properties: { title: h.nombre } }))
+      })
+    });
+    const data = await resCrear.json();
+    if (!resCrear.ok) throw new Error(data.error?.message || 'Error creando la hoja');
+    juriaSheetId = data.spreadsheetId;
+    localStorage.setItem('juria_sheet_id', juriaSheetId);
+    for (const h of Object.values(HOJAS_JURIA)){
+      await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${juriaSheetId}/values/${encodeURIComponent(h.nombre)}!A1:${String.fromCharCode(65 + h.headers.length - 1)}1?valueInputOption=RAW`, {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer ' + googleAccessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: [h.headers] })
+      });
+    }
+    msg.textContent = '✅ ¡Listo! Tu hoja fue creada y conectada.';
+    actualizarUIGoogleConectado();
+  }catch(e){
+    msg.textContent = '⚠️ Error creando la hoja: ' + e.message;
+  }
+}
+
+function actualizarUIGoogleConectado(){
+  $('googleConnectedBadge').style.display = 'flex';
+  $('btnConectarGoogle').style.display = 'none';
+  $('linkAbrirHoja').href = `https://docs.google.com/spreadsheets/d/${juriaSheetId}/edit`;
+}
+
+$('btnDesconectarGoogle').addEventListener('click', () => {
+  if (!confirm('¿Desconectar tu Google Sheets? Vas a poder volver a conectarte cuando quieras — tu hoja no se borra.')) return;
+  googleAccessToken = ''; googleTokenExpira = 0; juriaSheetId = '';
+  localStorage.removeItem('juria_google_token');
+  localStorage.removeItem('juria_google_token_expira');
+  localStorage.removeItem('juria_sheet_id');
+  $('googleConnectedBadge').style.display = 'none';
+  $('btnConectarGoogle').style.display = 'flex';
+  $('googleConnectStatus').textContent = '';
+});
+
+async function registrarFilaSheets(claveHoja, fila){
+  if (!juriaSheetId) return;
+  const h = HOJAS_JURIA[claveHoja];
+  if (!h) return;
+  const ok = await asegurarTokenValido();
+  if (!ok) return;
+  try{
+    await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${juriaSheetId}/values/${encodeURIComponent(h.nombre)}!A:Z:append?valueInputOption=RAW`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + googleAccessToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: [fila] })
+    });
+  }catch(e){
+    console.warn('Registro a Google Sheets falló silenciosamente:', e);
+  }
+}
+
+/* ---------- Helpers comunes ---------- */
+function parseJson(text){
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('Sin JSON en la respuesta');
+  return JSON.parse(m[0]);
+}
+function loadList(key){
+  try{ return JSON.parse(localStorage.getItem(key) || '[]'); }catch(e){ return []; }
+}
+function saveList(key, list){ localStorage.setItem(key, JSON.stringify(list)); }
+
+/* ---------- Intereses ---------- */
+const TASAS_LABEL = {
+  custom: 'Tasa mensual propia', activa: 'Tasa activa BNA', pasiva: 'Tasa pasiva BCRA',
+  cer: 'CER', uva: 'UVA', ley27802: 'Créditos laborales Ley 27.802'
+};
+const SYS_INTERESES = `Sos un asistente de liquidación de intereses para abogados argentinos. Te dan capital en $ARS, fecha desde, fecha hasta y una tasa de referencia (activa BNA, pasiva BCRA, CER, UVA o el régimen de créditos laborales de la Ley 27.802 con tasas pasivas y capitalización). Respondé SOLO con un JSON (sin texto extra, sin markdown) con esta forma exacta:
+{"interes_estimado": number, "total_estimado": number, "metodo": string, "advertencia": string, "resumen": string}
+Donde: interes_estimado y total_estimado son tu MEJOR ESTIMACIÓN en $ARS usando los valores de la tasa que conozcas hasta tu fecha de corte (si el período excede tu conocimiento, extrapolá con la última tasa conocida y decilo); metodo describe en 1 frase cómo calculaste (ej: "tasa activa BNA promedio ~X% mensual aplicada como interés simple"); advertencia SIEMPRE debe aclarar que es una estimación orientativa y que la liquidación judicial debe verificarse con la calculadora oficial (BCRA para Ley 27.802, colegios de abogados o el sitio del poder judicial de la jurisdicción); resumen explica el cálculo en 1-2 frases. NUNCA presentes el número como exacto ni inventes valores de índices con precisión falsa.`;
+
+$('inTasa').addEventListener('change', () => {
+  $('inCustomWrap').style.display = $('inTasa').value === 'custom' ? 'block' : 'none';
+});
+
+function renderIntereses(){
+  const list = loadList('juria_intereses_list');
+  const wrap = $('inTablaWrap');
+  if (!list.length){ wrap.innerHTML = '<p class="empty">Todavía no guardaste ninguna liquidación.</p>'; return; }
+  let html = '<table class="data"><tr><th>Concepto</th><th>Capital</th><th>Tasa</th><th>Período</th><th>Interés</th><th>Total</th><th></th></tr>';
+  list.forEach((r, i) => {
+    html += `<tr><td>${r.concepto}</td><td>${fmt(r.capital)}</td><td>${r.tasa}</td><td>${fmtFecha(r.desde)} → ${fmtFecha(r.hasta)}</td><td>${fmt(r.interes)}</td><td><b>${fmt(r.total)}</b></td><td><button class="del" onclick="delInteres(${i})">✕</button></td></tr>`;
+  });
+  wrap.innerHTML = html + '</table>';
+}
+function delInteres(i){ const list = loadList('juria_intereses_list'); list.splice(i,1); saveList('juria_intereses_list', list); renderIntereses(); }
+
+function mostrarResultadoInteres(d, ctx){
+  $('inResult').innerHTML = `
+    <div class="result-box">
+      <div class="big">${fmt(d.total)}</div>
+      <div class="row-mini"><span>Capital</span><span>${fmt(ctx.capital)}</span></div>
+      <div class="row-mini"><span>Interés</span><span>${fmt(d.interes)}</span></div>
+      <div class="row-mini"><span>Tasa</span><span>${ctx.tasaLabel}</span></div>
+      <div class="row-mini"><span>Período</span><span>${fmtFecha(ctx.desde)} → ${fmtFecha(ctx.hasta)} (${ctx.dias} días)</span></div>
+      <p style="margin-top:10px;font-size:13px;"><strong>${d.alerta}</strong></p>
+      <p style="margin-top:6px;font-size:13px;color:var(--muted);">${d.resumen}</p>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="inGuardarBtn">💾 Guardar liquidación</button>
+    </div>`;
+  $('inGuardarBtn').addEventListener('click', () => {
+    const list = loadList('juria_intereses_list');
+    const row = { concepto: (ctx.concepto || 'Sin carátula').slice(0,60), capital: ctx.capital, tasa: ctx.tasaLabel, desde: ctx.desde, hasta: ctx.hasta, interes: d.interes, total: d.total, fecha: new Date().toISOString().slice(0,10) };
+    list.unshift(row);
+    saveList('juria_intereses_list', list);
+    renderIntereses();
+    registrarFilaSheets('intereses', [row.fecha, row.concepto, row.capital, row.tasa, row.desde, row.hasta, row.interes, row.total]);
+  });
+}
+
+$('inCalcularBtn').addEventListener('click', async () => {
+  const capital = parseFloat($('inCapital').value);
+  const desde = $('inDesde').value, hasta = $('inHasta').value;
+  const tasa = $('inTasa').value;
+  const concepto = $('inConcepto').value.trim();
+  if (!capital || !desde || !hasta){ alert('Completá capital, fecha desde y fecha hasta.'); return; }
+  if (new Date(hasta) <= new Date(desde)){ alert('La fecha "hasta" debe ser posterior a "desde".'); return; }
+  const dias = Math.round((new Date(hasta) - new Date(desde)) / 86400000);
+  const ctx = { capital, desde, hasta, dias, concepto, tasaLabel: TASAS_LABEL[tasa] };
+  const btn = $('inCalcularBtn');
+
+  if (tasa === 'custom'){
+    const pct = parseFloat($('inTasaCustom').value);
+    if (!pct){ alert('Ingresá la tasa mensual (%).'); return; }
+    ctx.tasaLabel = pct + '% mensual';
+    const meses = dias / 30.4167;
+    let interes, resumen;
+    if ($('inCapitalizar').checked){
+      const total = capital * Math.pow(1 + pct/100, meses);
+      interes = total - capital;
+      resumen = `Interés compuesto con capitalización mensual: ${pct}% mensual durante ${meses.toFixed(2)} meses (${dias} días).`;
+    } else {
+      interes = capital * (pct/100) * meses;
+      resumen = `Interés simple: ${pct}% mensual × ${meses.toFixed(2)} meses (${dias} días) sobre el capital.`;
+    }
+    mostrarResultadoInteres({ interes: interes, total: capital + interes, alerta: 'Cálculo aritmético exacto sobre la tasa que ingresaste.', resumen }, ctx);
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Calculando...';
+  $('inResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const userMsg = `Capital: $${capital}\nDesde: ${desde}\nHasta: ${hasta} (${dias} días)\nTasa: ${TASAS_LABEL[tasa]}`;
+    const reply = await callClaude([{ role:'user', content: userMsg }], SYS_INTERESES, 700);
+    const data = parseJson(reply);
+    mostrarResultadoInteres({ interes: data.interes_estimado, total: data.total_estimado, alerta: '⚠️ ' + data.advertencia, resumen: data.metodo + ' — ' + data.resumen }, ctx);
+  }catch(e){
+    $('inResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Calcular intereses';
+  }
+});
+renderIntereses();
+
+/* ---------- Plazos procesales (determinístico, sin IA) ---------- */
+const FERIADOS_2026 = [
+  '2026-01-01','2026-02-16','2026-02-17','2026-03-24','2026-04-02','2026-04-03',
+  '2026-05-01','2026-05-25','2026-06-20','2026-07-09','2026-08-17','2026-10-12',
+  '2026-11-20','2026-12-08','2026-12-25','2027-01-01'
+];
+function parseFechasExtra(){
+  return $('plFeriaInvierno').value.split(',').map(s=>s.trim()).filter(s=>/^\d{4}-\d{2}-\d{2}$/.test(s));
+}
+function esInhabil(date, extra, feriaEnero){
+  const dow = date.getDay();
+  if (dow === 0 || dow === 6) return true;
+  const iso = date.toISOString().slice(0,10);
+  if (FERIADOS_2026.includes(iso)) return true;
+  if (extra.includes(iso)) return true;
+  if (feriaEnero && date.getMonth() === 0) return true;
+  return false;
+}
+function sumarDia(d){ const n = new Date(d); n.setDate(n.getDate()+1); return n; }
+function proximoHabil(d, extra, feriaEnero){
+  let n = new Date(d);
+  while (esInhabil(n, extra, feriaEnero)) n = sumarDia(n);
+  return n;
+}
+$('plCalcularBtn').addEventListener('click', () => {
+  const notifStr = $('plNotif').value;
+  const dias = parseInt($('plDias').value);
+  const tipo = $('plTipo').value;
+  const feriaEnero = $('plFeriaEnero').checked;
+  const extra = parseFechasExtra();
+  if (!notifStr || !dias || dias < 1){ alert('Completá la fecha de notificación y la cantidad de días.'); return; }
+  const notif = new Date(notifStr + 'T12:00:00');
+  let venc, detalle;
+  if (tipo === 'habiles'){
+    let d = sumarDia(notif), contados = 0;
+    while (contados < dias){
+      if (!esInhabil(d, extra, feriaEnero)) contados++;
+      if (contados < dias) d = sumarDia(d);
+    }
+    venc = d;
+    detalle = `${dias} días hábiles judiciales contados desde el día siguiente a la notificación, descontando fines de semana, feriados nacionales${feriaEnero ? ', feria de enero' : ''}${extra.length ? ' y ' + extra.length + ' día(s) inhábil(es) que agregaste' : ''}.`;
+  } else {
+    venc = new Date(notif); venc.setDate(venc.getDate() + dias);
+    const original = venc.toISOString().slice(0,10);
+    venc = proximoHabil(venc, extra, feriaEnero);
+    detalle = `${dias} días corridos desde la notificación` + (venc.toISOString().slice(0,10) !== original ? '. El vencimiento cayó en día inhábil, se trasladó al primer día hábil siguiente.' : '.');
+  }
+  const gracia = proximoHabil(sumarDia(venc), extra, feriaEnero);
+  const vIso = venc.toISOString().slice(0,10), gIso = gracia.toISOString().slice(0,10);
+  const DIAS_SEM = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  $('plResult').innerHTML = `
+    <div class="result-box">
+      <div class="big">${fmtFecha(vIso)}</div>
+      <div class="row-mini"><span>Vence el</span><span>${DIAS_SEM[venc.getDay()]} ${fmtFecha(vIso)}</span></div>
+      <div class="row-mini"><span>Plazo de gracia (cargo)</span><span>${DIAS_SEM[gracia.getDay()]} ${fmtFecha(gIso)}, primeras dos horas de despacho</span></div>
+      <p style="margin-top:10px;font-size:13px;color:var(--muted);">${detalle}</p>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="plGuardarBtn">⏰ Guardar en agenda</button>
+    </div>`;
+  $('plGuardarBtn').addEventListener('click', () => {
+    const caratula = prompt('Carátula o referencia para la agenda:', '');
+    if (caratula === null) return;
+    agregarVencimiento(caratula || 'Plazo calculado', vIso, tipo === 'habiles' ? dias+' días hábiles' : dias+' días corridos');
+    alert('✅ Guardado en la agenda de vencimientos.');
+  });
+});
+
+/* ---------- Agenda de vencimientos ---------- */
+function estadoVenc(iso){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const f = new Date(iso + 'T00:00:00');
+  const diff = Math.round((f - hoy) / 86400000);
+  if (diff < 0) return { cls:'bad', txt:'Vencido' };
+  if (diff === 0) return { cls:'bad', txt:'¡Vence hoy!' };
+  if (diff <= 5) return { cls:'warn', txt:'En '+diff+' día'+(diff===1?'':'s') };
+  return { cls:'ok', txt:'En '+diff+' días' };
+}
+function renderAgenda(){
+  const list = loadList('juria_agenda_list').sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  saveList('juria_agenda_list', list);
+  const wrap = $('agTablaWrap');
+  if (!list.length){ wrap.innerHTML = '<p class="empty">Sin vencimientos cargados. Los que calcules en Plazos también podés guardarlos acá.</p>'; return; }
+  let html = '<table class="data"><tr><th>Estado</th><th>Vencimiento</th><th>Carátula</th><th>Nota</th><th></th></tr>';
+  list.forEach((r, i) => {
+    const e = estadoVenc(r.fecha);
+    html += `<tr><td><span class="pill ${e.cls}">${e.txt}</span></td><td><b>${fmtFecha(r.fecha)}</b></td><td>${r.caratula}</td><td>${r.nota || '—'}</td><td><button class="del" onclick="delVenc(${i})">✕</button></td></tr>`;
+  });
+  wrap.innerHTML = html + '</table>';
+}
+function delVenc(i){ const list = loadList('juria_agenda_list').sort((a,b)=>a.fecha.localeCompare(b.fecha)); list.splice(i,1); saveList('juria_agenda_list', list); renderAgenda(); }
+function agregarVencimiento(caratula, fecha, nota){
+  const list = loadList('juria_agenda_list');
+  const row = { caratula: caratula.slice(0,80), fecha, nota: (nota||'').slice(0,80), carga: new Date().toISOString().slice(0,10) };
+  list.push(row);
+  saveList('juria_agenda_list', list);
+  renderAgenda();
+  registrarFilaSheets('agenda', [row.carga, row.caratula, row.fecha, row.nota]);
+}
+$('agAgregarBtn').addEventListener('click', () => {
+  const caratula = $('agCaratula').value.trim();
+  const fecha = $('agFecha').value;
+  const nota = $('agNota').value.trim();
+  if (!caratula || !fecha){ alert('Completá al menos la carátula y la fecha.'); return; }
+  agregarVencimiento(caratula, fecha, nota);
+  $('agCaratula').value=''; $('agFecha').value=''; $('agNota').value='';
+});
+renderAgenda();
+
+/* ---------- Analizador de escritos ---------- */
+const SYS_ANALIZADOR = `Sos un analista de documentos jurídicos para abogados argentinos. Te van a pasar el texto (o imagen) de un documento judicial o contractual y su tipo. Devolvé un análisis de trabajo estructurado EXACTAMENTE con estas secciones, en este orden, usando estos títulos en negrita con **:
+**Síntesis** (3-5 líneas: qué es, quién lo presenta/firma, qué pide o resuelve)
+**Partes y objeto** (partes identificadas, objeto del litigio o del contrato, monto si surge)
+**Puntos fuertes** (del documento o de la posición de quien lo redactó)
+**Puntos débiles y flancos atacables** (defectos formales, argumentos vulnerables, prueba floja, cláusulas riesgosas)
+**Plazos y cargas** (qué plazos corren a partir de este documento y para quién, con el código procesal aplicable si se identifica la jurisdicción)
+**Sugerencias de acción** (3-5 pasos concretos para el profesional)
+Reglas: lenguaje técnico rioplatense, conciso. NUNCA inventes jurisprudencia con carátula y fecha como verificada. Si el texto está incompleto o ilegible en partes, decilo. Si el usuario hace una consulta específica, respondela dentro de la sección que corresponda y ampliá al final bajo **Respuesta a tu consulta**. Cerrá siempre con la línea: "Este análisis es un borrador de apoyo — verificá el documento original y las citas antes de actuar."`;
+let anArchivo = null;
+$('anDrop').addEventListener('click', ()=>$('anFile').click());
+$('anDrop').addEventListener('dragover', e=>{ e.preventDefault(); $('anDrop').style.borderColor='var(--brand-light)'; });
+$('anDrop').addEventListener('dragleave', ()=>{ $('anDrop').style.borderColor='var(--border)'; });
+$('anDrop').addEventListener('drop', e=>{
+  e.preventDefault(); $('anDrop').style.borderColor='var(--border)';
+  if (e.dataTransfer.files.length){ anArchivo = e.dataTransfer.files[0]; $('anFileName').textContent = '📎 ' + anArchivo.name; }
+});
+$('anFile').addEventListener('change', e=>{
+  anArchivo = e.target.files[0] || null;
+  $('anFileName').textContent = anArchivo ? '📎 ' + anArchivo.name : '';
+});
+$('anAnalizarBtn').addEventListener('click', async () => {
+  if (!anArchivo){ alert('Subí primero el PDF o la imagen del documento.'); return; }
+  const tipo = $('anTipo').value;
+  const pregunta = $('anPregunta').value.trim();
+  const btn = $('anAnalizarBtn');
+  btn.disabled = true; btn.textContent = 'Analizando...';
+  $('anResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const content = [ await buildFileBlock(anArchivo) ];
+    content.push({ type:'text', text: `Tipo de documento: ${tipo}.` + (pregunta ? ` Consulta específica: ${pregunta}` : '') + ' Analizalo según tu estructura.' });
+    const reply = await callClaude([{ role:'user', content }], SYS_ANALIZADOR, 2500);
+    $('anResult').innerHTML = `<div class="result-box" style="white-space:pre-wrap;">${mdLite(reply)}</div>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="anGuardarBtn">💾 Registrar análisis</button>`;
+    const sintesis = reply.split('\n').filter(l=>l.trim() && !l.includes('**Síntesis**')).slice(0,2).join(' ').slice(0,180);
+    $('anGuardarBtn').addEventListener('click', () => {
+      registrarFilaSheets('analisis', [new Date().toISOString().slice(0,10), anArchivo.name, tipo, sintesis]);
+      $('anGuardarBtn').textContent = '✅ Registrado';
+      $('anGuardarBtn').disabled = true;
+    });
+  }catch(e){
+    $('anResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Analizar documento';
+  }
+});
+</script>
+</body>
+</html>
