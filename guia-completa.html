@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía completa — JurIA</title>
+<meta name="description" content="Guía completa de JurIA: cómo conseguir tu API key, calcular intereses y plazos procesales, analizar escritos y usar el chat jurídico con IA.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="tracker.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#7C2136;--brand-light:#A84459;--accent:#C9A227;
+  --border:#EBDCE1;--text:#2A1A1F;--mid:#7A6068;--dim:#9A7F88;
+  --heading:#7C2136;
+  --bg-page:#FBF8F9;--surface:#fff;--surface-2:#F6EDF0;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --border:rgba(255,255,255,.12);--text:#F6EDF0;--mid:#BC9BA6;--dim:#96707D;
+  --heading:#DE8B9C;
+  --bg-page:#160B10;--surface:#26141B;--surface-2:#1F1016;
+}
+body{font-family:var(--sans);color:var(--text);background:var(--bg-page);line-height:1.7;transition:background .2s,color .2s}
+
+header{position:sticky;top:0;z-index:100;background:var(--bg-page);border-bottom:1px solid var(--border);padding:0 24px}
+.nav{max-width:900px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--heading);text-decoration:none}
+.logo em{font-style:italic;color:var(--accent)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--heading)}
+.nav-cta{background:var(--brand);color:#fff !important;padding:9px 18px;border-radius:10px;font-weight:600}
+#theme-toggle{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
+
+.container{max-width:800px;margin:0 auto;padding:60px 24px 100px}
+h1{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:600;color:var(--heading);margin-bottom:8px}
+.subtitulo{color:var(--dim);font-size:14px;margin-bottom:48px}
+.toc{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:48px}
+.toc h3{font-size:13px;color:var(--heading);margin-bottom:12px;text-transform:uppercase;letter-spacing:.12em;font-family:var(--sans);font-weight:600}
+.toc ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.toc a{color:var(--mid);text-decoration:none;font-size:14px}
+.toc a:hover{color:var(--brand-light)}
+
+section{margin-bottom:48px;scroll-margin-top:80px}
+h2{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--heading);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+h3{font-size:16px;font-weight:600;color:var(--heading);margin:22px 0 8px}
+p{color:var(--mid);margin-bottom:14px;font-size:15px}
+ul,ol{color:var(--mid);margin:0 0 14px 22px;font-size:15px}
+li{margin-bottom:7px}
+strong{color:var(--text);font-weight:600}
+code{background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:13px}
+a.inline{color:var(--brand-light);text-decoration:none}
+
+.paso{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.paso .n{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;font-family:var(--serif);font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.paso p{margin:2px 0 0}
+
+.highlight{background:var(--surface-2);border-left:3px solid var(--brand-light);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+.highlight p{margin:0;color:var(--text);font-size:14px}
+.warning{background:rgba(201,162,39,.10);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+.warning p{margin:0;color:var(--text);font-size:14px}
+.tip{font-size:13.5px;color:var(--mid);background:var(--surface-2);border:1px dashed var(--border);border-radius:10px;padding:12px 16px;margin:12px 0}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:var(--surface-2);color:var(--heading);text-align:left;padding:10px 12px;border:1px solid var(--border)}
+td{padding:10px 12px;border:1px solid var(--border);color:var(--mid)}
+
+details.faq{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;background:var(--surface)}
+details.faq summary{padding:14px 18px;cursor:pointer;font-weight:600;font-size:14.5px;color:var(--heading);list-style:none;display:flex;justify-content:space-between}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";color:var(--accent);font-size:18px}
+details.faq[open] summary::after{content:"–"}
+details.faq p{padding:0 18px 14px;font-size:14px}
+
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;color:var(--dim);font-size:13px}
+footer a{color:var(--brand-light);text-decoration:none}
+
+@media(max-width:640px){
+  .container{padding:40px 16px 60px}
+  .nav-links a:not(.nav-cta){display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">Jur<em>IA</em></a>
+    <div class="nav-links">
+      <a href="index.html">← Volver a inicio</a>
+      <a href="terminos.html">Términos</a>
+      <a href="agente-juria.html" class="nav-cta">Ir al Agente →</a>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Guía completa de JurIA</h1>
+  <p class="subtitulo">Todo lo que necesitás para arrancar y sacarle el jugo — última actualización: 24 de julio de 2026</p>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ul>
+      <li><a href="#empezar">1. Antes de empezar: tu API key (5 minutos)</a></li>
+      <li><a href="#chat">2. Chat jurídico</a></li>
+      <li><a href="#intereses">3. Cálculo de intereses y actualización</a></li>
+      <li><a href="#plazos">4. Calculadora de plazos procesales</a></li>
+      <li><a href="#agenda">5. Agenda de vencimientos</a></li>
+      <li><a href="#analizador">6. Analizador de escritos y documentos</a></li>
+      <li><a href="#sheets">7. Respaldo y sincronización con Google Sheets</a></li>
+      <li><a href="#roadmap">8. Qué viene: jurisprudencia y modelos de escritos</a></li>
+      <li><a href="#costos">9. Cuánto cuesta usarlo</a></li>
+      <li><a href="#privacidad">10. Dónde viven tus datos (y el secreto profesional)</a></li>
+      <li><a href="#faq">11. Preguntas frecuentes</a></li>
+    </ul>
+  </div>
+
+  <section id="empezar">
+    <h2>1. Antes de empezar: tu API key</h2>
+    <p>JurIA usa la inteligencia artificial de Anthropic (Claude) directamente desde tu navegador. Para eso necesitás una clave personal — se consigue una sola vez y tarda unos 5 minutos:</p>
+    <div class="paso"><div class="n">1</div><p>Entrá a <a class="inline" href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> y creá una cuenta gratis (podés usar tu cuenta de Google).</p></div>
+    <div class="paso"><div class="n">2</div><p>En el menú, andá a <strong>Billing</strong> y cargá crédito. Con <strong>USD 5</strong> tenés para varios cientos de consultas.</p></div>
+    <div class="paso"><div class="n">3</div><p>Andá a <strong>API Keys</strong> → <strong>Create Key</strong>. Copiá la clave (empieza con <code>sk-ant-...</code>). Guardala en un lugar seguro: se muestra una sola vez.</p></div>
+    <div class="paso"><div class="n">4</div><p>Abrí el <a class="inline" href="agente-juria.html">Agente Jurídico</a> y pegá la clave en el campo de arriba. Listo.</p></div>
+    <div class="highlight"><p><strong>Tu clave nunca sale de tu navegador</strong> (salvo hacia Anthropic para procesar tus consultas). Se guarda en la sesión y se borra al cerrar la pestaña — por eso vas a tener que pegarla de nuevo cada vez que entres.</p></div>
+    <h3>Elegir el modelo</h3>
+    <p>Arriba del agente podés elegir entre dos modelos: <strong>Claude Haiku 4.5</strong> (rápido y económico, ideal para consultas del día a día) y <strong>Claude Sonnet 5</strong> (más potente, conviene para análisis de escritos largos y borradores complejos). Empezá con Haiku; cambiá a Sonnet cuando el documento o el escrito lo pida.</p>
+  </section>
+
+  <section id="chat">
+    <h2>2. Chat jurídico</h2>
+    <p>Es la pestaña principal: un asistente entrenado para hablar con profesionales del derecho argentino — derecho de fondo y procesal, estrategia, y redacción de borradores de escritos.</p>
+    <h3>Qué preguntarle</h3>
+    <ul>
+      <li>"¿Qué requisitos tiene la medida cautelar innovativa en el CPCCN? ¿Y en Entre Ríos?"</li>
+      <li>"Redactame un borrador de contestación de demanda por daños en accidente de tránsito, jurisdicción Santa Fe, con estos hechos: ..."</li>
+      <li>"¿Conviene oponer excepción de prescripción o plantearla como defensa de fondo en este caso?"</li>
+      <li>"Armame una carta documento por intimación de pago de alquileres adeudados"</li>
+    </ul>
+    <h3>Adjuntar archivos</h3>
+    <p>Con el botón 📎 podés adjuntar un <strong>PDF o una imagen</strong> (demanda, contrato, sentencia, cédula, foto del expediente) y seguir la conversación sobre ese documento: "¿qué excepciones puedo oponer?", "resumime los agravios".</p>
+    <div class="tip">💡 El chat recuerda la conversación mientras tengas la pestaña abierta. Si le pedís un escrito, te lo entrega con campos [ENTRE CORCHETES] para los datos que falten.</div>
+    <div class="warning"><p><strong>Regla de oro:</strong> JurIA está instruido para no inventar fallos con carátula y fecha como si fueran verificados. Aun así, verificá toda cita normativa o jurisprudencial en SAIJ, Infoleg o tu editorial antes de presentarla.</p></div>
+  </section>
+
+  <section id="intereses">
+    <h2>3. Cálculo de intereses y actualización</h2>
+    <p>En la pestaña <strong>Intereses</strong> actualizás un crédito entre dos fechas. Hay dos modos, y es importante entender la diferencia:</p>
+    <table>
+      <tr><th>Modo</th><th>Cómo funciona</th></tr>
+      <tr><td><strong>Tasa mensual propia</strong></td><td>Cálculo aritmético exacto (interés simple o compuesto con capitalización mensual) sobre la tasa que vos ingresás. Sin IA.</td></tr>
+      <tr><td><strong>Tasas de referencia</strong> (activa BNA, pasiva BCRA, CER, UVA, Ley 27.802)</td><td>Estimación de la IA con los valores que conoce. Es orientativa: sirve para dimensionar un reclamo, no para presentar la liquidación.</td></tr>
+    </table>
+    <p>Cada liquidación se puede guardar: queda en la tabla local y, si conectaste Google Sheets, también en tu hoja.</p>
+    <div class="warning"><p><strong>Para liquidaciones judiciales:</strong> verificá siempre con la <a class="inline" href="https://www.bcra.gob.ar/en/interest-calculator-for-employees-legal-claims/" target="_blank">calculadora oficial del BCRA</a> (créditos laborales Ley 27.802) o las calculadoras de tu colegio de abogados / poder judicial de tu jurisdicción.</p></div>
+  </section>
+
+  <section id="plazos">
+    <h2>4. Calculadora de plazos procesales</h2>
+    <p>Cálculo <strong>determinístico, sin IA</strong>: ingresás la fecha de notificación, la cantidad de días y el tipo de plazo, y JurIA computa el vencimiento.</p>
+    <ul>
+      <li><strong>Días hábiles judiciales:</strong> cuenta desde el día siguiente a la notificación, descontando fines de semana, feriados nacionales 2026 (inamovibles y trasladables) y, si lo dejás tildado, la feria judicial de enero.</li>
+      <li><strong>Días corridos:</strong> suma directa; si el vencimiento cae en día inhábil, se traslada al primer día hábil siguiente.</li>
+      <li><strong>Plazo de gracia:</strong> te muestra también el día del cargo — primer día hábil posterior, dos primeras horas de despacho.</li>
+      <li><strong>Días inhábiles propios:</strong> un campo libre para agregar feria de invierno, feriados provinciales o asuetos de tu tribunal (formato <code>AAAA-MM-DD</code> separados por coma).</li>
+    </ul>
+    <div class="warning"><p><strong>Importante:</strong> los feriados provinciales y las fechas de feria varían por jurisdicción y por año. El cómputo definitivo del plazo es responsabilidad exclusiva del profesional — cotejá siempre contra la acordada de tu tribunal.</p></div>
+    <div class="tip">💡 Desde el resultado podés guardar el vencimiento directo en la Agenda con un clic.</div>
+  </section>
+
+  <section id="agenda">
+    <h2>5. Agenda de vencimientos</h2>
+    <p>Cargá carátula, fecha y una nota opcional (juzgado, número de expediente). La agenda ordena por fecha y te muestra un semáforo:</p>
+    <ul>
+      <li><strong>Rojo:</strong> vencido o vence hoy</li>
+      <li><strong>Naranja:</strong> vence en 5 días o menos</li>
+      <li><strong>Verde:</strong> en término</li>
+    </ul>
+    <p>Los datos viven en tu navegador y, si conectaste el backup, también en tu Google Sheets.</p>
+  </section>
+
+  <section id="analizador">
+    <h2>6. Analizador de escritos y documentos</h2>
+    <p>Subí una demanda, contestación, contrato, sentencia o cédula (PDF o foto) y elegí el tipo de documento. JurIA devuelve un análisis de trabajo estructurado:</p>
+    <ul>
+      <li><strong>Síntesis</strong> — qué es, quién lo presenta, qué pide o resuelve</li>
+      <li><strong>Partes y objeto</strong> — con monto si surge del texto</li>
+      <li><strong>Puntos fuertes</strong> y <strong>puntos débiles / flancos atacables</strong> — defectos formales, argumentos vulnerables, cláusulas riesgosas</li>
+      <li><strong>Plazos y cargas</strong> — qué plazos corren a partir del documento y para quién</li>
+      <li><strong>Sugerencias de acción</strong> — pasos concretos para el profesional</li>
+    </ul>
+    <p>Podés sumar una consulta específica ("¿qué excepciones previas me conviene oponer?") y la responde dentro del análisis.</p>
+    <div class="tip">💡 Para documentos largos o complejos, elegí el modelo Sonnet 5 arriba — el análisis gana bastante profundidad.</div>
+  </section>
+
+  <section id="sheets">
+    <h2>7. Respaldo y sincronización con Google Sheets</h2>
+    <p>En la pestaña <strong>Backup</strong> podés conectar tu cuenta de Google. JurIA crea automáticamente una hoja "JurIA - Mis Datos" en tu propio Drive, con pestañas para liquidaciones de intereses, agenda de vencimientos y registro de análisis.</p>
+    <ul>
+      <li>Tocás <strong>Conectar con Google</strong> y aceptás los permisos (spreadsheets y Drive, solo para archivos que crea JurIA).</li>
+      <li>La hoja es 100% tuya — vive en tu Google Drive, no en un servidor de LABStudio.</li>
+      <li>Podés <strong>Desconectar</strong> cuando quieras; la hoja no se borra, solo dejás de sincronizar.</li>
+    </ul>
+  </section>
+
+  <section id="roadmap">
+    <h2>8. Qué viene: jurisprudencia y modelos de escritos</h2>
+    <ul>
+      <li><strong>Búsqueda de jurisprudencia (Fase 2):</strong> búsqueda asistida sobre fuentes abiertas (SAIJ, CSJN) con resumen de fallos.</li>
+      <li><strong>Modelos de escritos (Fase 2):</strong> biblioteca de modelos (demanda, cautelares, recursos) que la IA adapta a tu caso y jurisdicción.</li>
+      <li><strong>Fase 3:</strong> lectura de notificaciones de MEV/portales judiciales, dashboard de causas y liquidaciones con índices oficiales conectados.</li>
+    </ul>
+    <div class="tip">💡 Mientras tanto, el Chat ya orienta sobre líneas jurisprudenciales (para verificar en SAIJ) y redacta borradores de escritos si le pasás los hechos.</div>
+  </section>
+
+  <section id="costos">
+    <h2>9. Cuánto cuesta usarlo</h2>
+    <table>
+      <tr><th>Acción</th><th>Costo aproximado en API</th></tr>
+      <tr><td>Consulta al chat jurídico</td><td>Menos de USD 0,01</td></tr>
+      <tr><td>Cálculo de plazo procesal</td><td>Gratis (sin IA)</td></tr>
+      <tr><td>Liquidación con tasa propia</td><td>Gratis (sin IA)</td></tr>
+      <tr><td>Estimación de intereses con tasa de referencia</td><td>Menos de USD 0,01</td></tr>
+      <tr><td>Análisis de un escrito en PDF</td><td>USD 0,01 – 0,03</td></tr>
+      <tr><td>Borrador de escrito completo (Sonnet)</td><td>USD 0,02 – 0,05</td></tr>
+    </table>
+    <p>Con USD 5 de crédito tenés para meses de uso normal. El <strong>Plan Estudio</strong> (USD 80/mes) suma onboarding 1 a 1, soporte por WhatsApp 24 hs, feriados y ferias actualizados automáticamente y agenda compartida del estudio — el producto es el mismo.</p>
+  </section>
+
+  <section id="privacidad">
+    <h2>10. Dónde viven tus datos (y el secreto profesional)</h2>
+    <ul>
+      <li><strong>Tu API key:</strong> en la sesión del navegador, se borra al cerrar la pestaña.</li>
+      <li><strong>Consultas y documentos:</strong> van directo de tu navegador a Anthropic. LABStudio no los ve ni los guarda — no hay servidor nuestro en el medio.</li>
+      <li><strong>Liquidaciones, agenda y registros:</strong> en el <code>localStorage</code> de tu navegador, salvo que conectes Google Sheets — ahí también quedan en tu propia hoja.</li>
+    </ul>
+    <div class="highlight"><p><strong>Secreto profesional:</strong> como no hay backend nuestro, el contenido de tus causas nunca pasa por servidores de LABStudio. Aun así, evaluá anonimizar datos sensibles de clientes cuando la consulta no los requiera.</p></div>
+    <div class="warning"><p><strong>Ojo:</strong> como todo vive en tu navegador, si limpiás los datos de navegación o cambiás de computadora, perdés el histórico local (no el de Google Sheets, si lo conectaste). Más detalle en <a class="inline" href="terminos.html">Términos y Privacidad</a>.</p></div>
+  </section>
+
+  <section id="faq">
+    <h2>11. Preguntas frecuentes</h2>
+    <details class="faq"><summary>¿Funciona en el celular?</summary><p>Sí, completo y sin instalar nada. Podés sacarle una foto a una cédula o al expediente en papel y analizarla desde tribunales.</p></details>
+    <details class="faq"><summary>¿Puedo confiar en las citas de jurisprudencia?</summary><p>No a ciegas. JurIA está instruido para no presentar fallos inventados como verificados y para recordarte chequear en SAIJ o tu editorial. Los cálculos de plazos y las liquidaciones con tasa propia, en cambio, son aritmética pura sin IA.</p></details>
+    <details class="faq"><summary>¿Reemplaza mi sistema de gestión o la MEV?</summary><p>No. Es un complemento liviano: acelera cálculos, borradores y primeras lecturas. Las notificaciones electrónicas y el expediente siguen en el portal de tu jurisdicción.</p></details>
+    <details class="faq"><summary>¿Sirve para mi provincia?</summary><p>Sí. Indicá la jurisdicción en la consulta y la IA responde con el código procesal local que conoce, aclarando qué verificar. En Plazos podés cargar los feriados y ferias propios de tu tribunal.</p></details>
+    <details class="faq"><summary>¿Por qué tengo que pegar la API key cada vez que entro?</summary><p>Por seguridad: la clave se guarda solo en la sesión y se borra al cerrar la pestaña. Es intencional — clave en máquinas compartidas de estudio o juzgado.</p></details>
+    <details class="faq"><summary>¿Puedo usar la misma API key en FiscoIA, BarIA o los otros productos?</summary><p>Sí, es la misma cuenta de Anthropic para todos los productos de LABStudio. Un solo crédito, todas las herramientas.</p></details>
+    <details class="faq"><summary>Me quedé sin crédito de API, ¿qué pasa?</summary><p>El agente te muestra un error de límite. Entrá a console.anthropic.com → Billing y recargá. Tus datos guardados no se pierden.</p></details>
+  </section>
+
+  <p style="text-align:center;margin-top:40px;">
+    <a href="agente-juria.html" style="display:inline-block;background:var(--brand);color:#fff;padding:14px 28px;border-radius:12px;font-weight:600;text-decoration:none;">Abrir el Agente Jurídico →</a>
+  </p>
+  <p style="text-align:center;font-size:13.5px;color:var(--mid);margin-top:14px;">¿Dudas? Escribinos por <a class="inline" href="https://wa.me/5493435344597?text=Hola,%20tengo%20una%20duda%20sobre%20JurIA">WhatsApp</a> o a <a class="inline" href="mailto:labstudio.pna@gmail.com">labstudio.pna@gmail.com</a></p>
+</div>
+
+<footer>
+  <p>JurIA — Desarrollado por <a href="https://labstudiopna.github.io" target="_blank">LABStudio.pna</a> · Paraná, Entre Ríos, Argentina</p>
+</footer>
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('juria_theme') || 'light';
+    if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  function applyTheme(theme) {
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('juria_theme', next);
+    applyTheme(next);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(localStorage.getItem('juria_theme') || 'light');
+  });
+</script>
+
+</body>
+</html>

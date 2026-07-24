@@ -14,9 +14,12 @@
   - `og-image.png` (1200×630, WhatsApp/redes)
   - `site.webmanifest` (PWA, apunta a `agente-juria.html`)
 
+## Ya incluido (no hace falta copiar nada de otro producto)
+- `bento.css` propio de JurIA (paleta bordó/dorado)
+- `tracker.js` con `landing='JurIA'` — reporta cada página al webhook `labstudio-visitas`, separado de FarmaIA y el resto
+- `404.html`, `terminos.html` y `guia-completa.html` con la paleta y el toggle de tema de JurIA
+
 ## Pendientes tuyos
-1. Copiar `bento.css` y `tracker.js` de otro producto al repo.
-2. Crear el form en Formspree y reemplazar `TU_FORM_ID_JURIA` en la landing.
-3. Dar de alta el producto `juria` en tu webhook n8n de auth (mismo backend compartido).
-4. `guia-completa.html` y `terminos.html` están linkeados pero no creados aún.
-5. Los feriados 2026 están hardcodeados en `FERIADOS_2026` (incluye trasladables). Revisar si el gobierno agrega feriados turísticos y sumarlos.
+1. Crear el form en Formspree y reemplazar `TU_FORM_ID_JURIA` en la landing.
+2. Dar de alta el producto `juria` en tu webhook n8n de auth (mismo backend compartido).
+3. Los feriados 2026 están hardcodeados en `FERIADOS_2026` (incluye trasladables). Revisar si el gobierno agrega feriados turísticos y sumarlos.

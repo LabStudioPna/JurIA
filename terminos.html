@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Términos y Privacidad — JurIA</title>
+<meta name="description" content="Términos de servicio y política de privacidad de JurIA — agente jurídico con IA para abogados, procuradores y magistrados.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="tracker.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#7C2136;--brand-light:#A84459;--accent:#C9A227;
+  --border:#EBDCE1;--text:#2A1A1F;--mid:#7A6068;--dim:#9A7F88;
+  --heading:#7C2136;
+  --bg-page:#FBF8F9;--surface:#fff;--surface-2:#F6EDF0;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --border:rgba(255,255,255,.12);--text:#F6EDF0;--mid:#BC9BA6;--dim:#96707D;
+  --heading:#DE8B9C;
+  --bg-page:#160B10;--surface:#26141B;--surface-2:#1F1016;
+}
+body{font-family:var(--sans);color:var(--text);background:var(--bg-page);line-height:1.7;transition:background .2s,color .2s}
+
+header{position:sticky;top:0;z-index:100;background:var(--bg-page);border-bottom:1px solid var(--border);padding:0 24px}
+.nav{max-width:800px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--heading);text-decoration:none}
+.logo em{font-style:italic;color:var(--accent)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--heading)}
+.nav-cta{background:var(--brand);color:#fff !important;padding:9px 18px;border-radius:10px;font-weight:600}
+#theme-toggle{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
+
+.container{max-width:800px;margin:0 auto;padding:60px 24px 100px}
+h1{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:600;color:var(--heading);margin-bottom:8px}
+.subtitulo{color:var(--dim);font-size:14px;margin-bottom:48px}
+
+section{margin-bottom:40px;scroll-margin-top:80px}
+h2{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--heading);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+h3{font-size:15px;font-weight:600;color:var(--heading);margin:18px 0 8px}
+p{color:var(--mid);margin-bottom:14px;font-size:15px}
+ul,ol{color:var(--mid);margin:0 0 14px 22px;font-size:15px}
+li{margin-bottom:7px}
+strong{color:var(--text);font-weight:600}
+code{background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:13px}
+a.inline{color:var(--brand-light);text-decoration:none}
+
+.highlight{background:var(--surface-2);border-left:3px solid var(--brand-light);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+.highlight p{margin:0;color:var(--text);font-size:14px}
+.warning{background:rgba(201,162,39,.10);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+.warning p{margin:0;color:var(--text);font-size:14px}
+
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;color:var(--dim);font-size:13px}
+footer a{color:var(--brand-light);text-decoration:none}
+
+@media(max-width:640px){
+  .container{padding:40px 16px 60px}
+  .nav-links a:not(.nav-cta){display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">Jur<em>IA</em></a>
+    <div class="nav-links">
+      <a href="index.html">← Volver a inicio</a>
+      <a href="guia-completa.html">Guía</a>
+      <a href="agente-juria.html" class="nav-cta">Ir al Agente →</a>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Términos y Privacidad</h1>
+  <p class="subtitulo">JurIA — última actualización: 24 de julio de 2026</p>
+
+  <section id="uso">
+    <h2>1. Uso de JurIA</h2>
+    <p>JurIA es una herramienta de apoyo profesional para abogados, procuradores y magistrados: acelera cálculos de intereses y plazos, borradores de escritos y primeras lecturas de documentos. No constituye asesoramiento jurídico, no reemplaza el criterio profesional y no es un servicio legal dirigido al público en general.</p>
+    <p>Al usar JurIA aceptás que sos el único responsable del contenido que firmes y presentes: la verificación de citas normativas y jurisprudenciales, el control de plazos y la estrategia procesal son responsabilidad exclusiva del profesional matriculado.</p>
+  </section>
+
+  <section id="apikey">
+    <h2>2. Tu API key de Anthropic</h2>
+    <p>Para usar JurIA necesitás una API key de Anthropic (gratis desde <a class="inline" href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>).</p>
+    <div class="highlight"><p><strong>Tu API key nunca llega a nuestros servidores.</strong> Se almacena únicamente en la sesión de tu navegador. Al cerrar la pestaña se borra automáticamente.</p></div>
+    <p>Sos responsable de mantenerla confidencial, no compartirla con terceros, monitorear tu consumo en Anthropic (pagás directo a Anthropic, no a nosotros), y limpiar tu navegador si accedés desde una máquina compartida — especialmente en computadoras del estudio o del juzgado.</p>
+  </section>
+
+  <section id="privacidad">
+    <h2>3. Privacidad, secreto profesional y tus causas</h2>
+    <h3>Qué guardamos</h3>
+    <p>Si conectás Google Sheets desde la pestaña Backup, tus liquidaciones, agenda de vencimientos y registros de análisis se guardan en tu propia hoja de cálculo, en tu Google Drive — no en servidores de LABStudio.</p>
+    <p>No guardamos: el contenido de tus consultas al chat, los documentos que analizás (demandas, contratos, sentencias), tu API key, ni información de tus clientes o causas. No hay servidor nuestro en el medio del procesamiento.</p>
+    <h3>Qué pasa con Anthropic</h3>
+    <p>Tus consultas y documentos van directo de tu navegador a Anthropic para ser procesados. Revisá su <a class="inline" href="https://www.anthropic.com/privacy" target="_blank">política de privacidad</a>. Como profesional alcanzado por el secreto profesional, evaluá qué documentos subís y considerá anonimizar datos sensibles de clientes cuando la consulta no los requiera.</p>
+    <h3>Login con Google</h3>
+    <p>Si te identificás con Google para activar tu prueba gratuita, verificamos tu identidad contra Google y guardamos tu email, nombre y fecha de alta en nuestra base de usuarios, junto con el estado de tu plan (prueba o pago). Esto es lo mínimo necesario para administrar la prueba de 5 días y el acceso pago.</p>
+  </section>
+
+  <section id="cookies">
+    <h2>4. Cookies y analítica</h2>
+    <p>JurIA no usa cookies de rastreo publicitario. Usamos <code>sessionStorage</code> y <code>localStorage</code> para tu API key y tus datos guardados localmente (liquidaciones, agenda) — nada se envía a terceros con fines comerciales.</p>
+    <p>Registramos visitas anónimas y agregadas (página, dispositivo, país/ciudad aproximado por IP) para entender el uso general del sitio. No identifica a personas individuales.</p>
+  </section>
+
+  <section id="plan">
+    <h2>5. Plan Estudio</h2>
+    <p>Si contratás el plan pago (USD 80/mes):</p>
+    <ul>
+      <li>Facturamos directamente a tu email</li>
+      <li>Tus datos de contacto se guardan en nuestra base de usuarios (para soporte y avisos de actualizaciones de feriados y ferias)</li>
+      <li>Podés cancelar en cualquier momento</li>
+    </ul>
+  </section>
+
+  <section id="limitaciones">
+    <h2>6. Limitaciones y exención de responsabilidad</h2>
+    <p>JurIA se proporciona "tal cual" sin garantías. No somos responsables por:</p>
+    <ul>
+      <li>Vencimientos de plazos procesales — la calculadora es una ayuda aritmética; el cómputo definitivo depende de feriados locales, acordadas y notificaciones que solo el profesional puede verificar</li>
+      <li>Errores u omisiones en liquidaciones de intereses — las estimaciones con tasas de referencia deben verificarse con las calculadoras oficiales (BCRA, colegios de abogados, poder judicial de la jurisdicción)</li>
+      <li>Citas normativas o jurisprudenciales inexactas o inexistentes generadas por la IA — verificá toda cita en SAIJ, Infoleg o tu editorial jurídica antes de usarla en un escrito</li>
+      <li>Análisis de documentos incompletos o erróneos — leé siempre el documento original completo</li>
+      <li>Sanciones procesales, disciplinarias o daños derivados de decisiones profesionales basadas en la herramienta</li>
+      <li>Caídas de internet o errores en tu API key</li>
+    </ul>
+    <div class="warning"><p><strong>Importante:</strong> la IA puede equivocarse, omitir cuestiones o citar fallos que no existen. JurIA está instruido para advertirlo, pero el control final es indelegable: todo lo que firmes es responsabilidad tuya como profesional.</p></div>
+  </section>
+
+  <section id="cambios">
+    <h2>7. Cambios en estos términos</h2>
+    <p>Podemos actualizar estos términos en cualquier momento. Si hacemos cambios significativos, te avisaremos por email si estás en el plan pago.</p>
+  </section>
+
+  <section id="contacto">
+    <h2>8. Contacto</h2>
+    <ul>
+      <li>WhatsApp: <a class="inline" href="https://wa.me/5493435344597" target="_blank">+54 9 3435 344597</a></li>
+      <li>Email: <a class="inline" href="mailto:labstudio.pna@gmail.com">labstudio.pna@gmail.com</a></li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <p>JurIA — Desarrollado por <a href="https://labstudiopna.github.io" target="_blank">LABStudio.pna</a> · Paraná, Entre Ríos, Argentina</p>
+</footer>
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('juria_theme') || 'light';
+    if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  function applyTheme(theme) {
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('juria_theme', next);
+    applyTheme(next);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(localStorage.getItem('juria_theme') || 'light');
+  });
+</script>
+
+</body>
+</html>

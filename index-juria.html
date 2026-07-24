@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JurIA — Tu agente jurídico con IA</title>
+<meta name="description" content="Calculá intereses y plazos procesales, analizá demandas y contratos, y consultá derecho argentino con IA. El agente para abogados, procuradores y magistrados. Sin instalación, sin complicaciones.">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#120A0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="JurIA">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="JurIA — Tu agente jurídico con IA">
+<meta property="og:description" content="Calculá intereses y plazos procesales, analizá escritos y consultá derecho argentino con IA. Sin instalación, sin complicaciones.">
+<meta property="og:image" content="https://labstudiopna.github.io/JurIA/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://labstudiopna.github.io/JurIA/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="JurIA — Tu agente jurídico con IA">
+<meta name="twitter:description" content="Intereses, plazos procesales y análisis de escritos con IA para profesionales del derecho.">
+<meta name="twitter:image" content="https://labstudiopna.github.io/JurIA/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#120A0E;--bg-2:#1C1016;--bg-3:#28161E;--bg-soft:#160C11;
+  --border:#43222E;--border-soft:#2E1721;
+  --text:#F8EEF1;--mid:#C4A3AE;--dim:#8A6472;
+  --brand:#B04358;--brand-soft:#DE8B9C;--brand-2:#D4A72C;--brand-2-soft:#E3C55C;
+  --amber:#D4A72C;--red:#F87171;--ok:#10B981;--ok-soft:#34D399;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --radius:16px;
+}
+</style>
+<link rel="stylesheet" href="bento.css">
+<script src="tracker.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">
+    <img src="favicon-192.png" alt="JurIA">
+    <div class="logo-name">Jur<em>IA</em></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Características</a></li>
+    <li><a href="#pricing">Precios</a></li>
+    <li><a href="#faq">Preguntas frecuentes</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="guia-completa.html" target="_blank">Guía Completa</a></li>
+  </ul>
+  <a href="agente-juria.html" class="nav-cta" id="nav-cta-desktop">Ir al Agente →</a>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features" onclick="closeMobileMenu()">Características</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Precios</a>
+  <a href="#faq" onclick="closeMobileMenu()">Preguntas frecuentes</a>
+  <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
+  <a href="guia-completa.html" target="_blank">Guía Completa</a>
+  <a href="agente-juria.html" class="nav-cta">Ir al Agente →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container hero-grid">
+    <div>
+      <span class="pill"><span class="dot"></span>Hecho en Paraná, para profesionales del derecho argentino</span>
+      <h1>Cada plazo, interés y escrito, <em>resuelto al instante</em></h1>
+      <p class="lead">Calculá vencimientos procesales y liquidaciones de intereses, analizá demandas y contratos en PDF, y consultá derecho argentino con IA. Sin instalación, sin complicaciones — igual de simple que abrir WhatsApp.</p>
+      <div class="hero-cta">
+        <a href="agente-juria.html" class="btn btn-primary">Calcular mi primer plazo →</a>
+        <a href="#features" class="btn btn-ghost">Ver características</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><b>10 seg</b><span>Vencimiento o liquidación</span></div>
+        <div class="hstat"><b>4</b><span>Módulos activos</span></div>
+        <div class="hstat"><b>100%</b><span>Corre en tu navegador</span></div>
+      </div>
+    </div>
+    <div class="hero-bento">
+      <div class="hb-tile hb-wide" style="grid-row:span 2">
+        <div class="hb-tag">Plazos · en vivo</div>
+        <div class="hb-chat-u">"Me notificaron la demanda el 15/07 — 15 días hábiles, ¿cuándo vence contestar?"</div>
+        <div class="hb-chat-a">Descontando fines de semana y feriados nacionales...</div>
+        <div class="bento-hero-visual" style="margin-top:12px">
+          <div class="bhv-row"><span>Vence</span><b>miércoles 05/08</b></div>
+          <div class="bhv-row"><span>Plazo de gracia</span><b>06/08, 2 primeras horas</b></div>
+          <div class="bhv-row"><span>Días inhábiles descontados</span><b>6</b></div>
+        </div>
+        <div class="hb-badges">
+          <span class="hb-badge g">Feriados 2026 cargados</span>
+        </div>
+      </div>
+      <div class="hb-tile">
+        <div class="hb-big">4</div>
+        <div class="hb-lbl">módulos: chat, intereses, plazos y escritos</div>
+      </div>
+      <div class="hb-tile">
+        <div class="hb-big g">24</div>
+        <div class="hb-lbl">jurisdicciones consultables</div>
+      </div>
+      <div class="hb-tile hb-wide">
+        <div class="hb-tag">Analizador de escritos</div>
+        <div class="hb-badges">
+          <span class="hb-badge g">puntos débiles detectados</span>
+          <span class="hb-badge a">plazos que corren</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="trust" style="padding:0">
+  <div class="container trust-grid">
+    <div class="tstat"><b><em>10 seg</em></b><span>Cálculo de plazo o liquidación completa</span></div>
+    <div class="tstat"><b><em>4</em></b><span>Módulos: chat, intereses, plazos y analizador</span></div>
+    <div class="tstat"><b><em>0</em>%</b><span>Instalación</span></div>
+    <div class="tstat"><b><em>100</em>%</b><span>En tu navegador — secreto profesional resguardado</span></div>
+  </div>
+</section>
+
+<!-- FEATURES BENTO -->
+<section id="features">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Suite de herramientas</span>
+      <h2>Todo lo que hoy resolvés a mano, en tres planillas y dos calculadoras distintas</h2>
+      <p>Nada de "IA que opina de derecho". Cada módulo produce un cálculo verificable o un borrador de trabajo listo para usar.</p>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento b-2x2">
+        <span class="badge-new">/intereses</span>
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg></div>
+        <h3>Liquidación de intereses</h3>
+        <p>Actualizá créditos entre dos fechas: con tu tasa mensual el cálculo es exacto, y con tasas de referencia la IA estima y te dice dónde verificar el número oficial.</p>
+        <div class="bento-hero-visual">
+          <div class="bhv-row"><span>Tasa activa BNA / pasiva BCRA</span><b>estimación IA</b></div>
+          <div class="bhv-row"><span>CER · UVA · Ley 27.802</span><b>estimación IA</b></div>
+          <div class="bhv-row"><span>Tasa mensual propia</span><b>cálculo exacto</b></div>
+        </div>
+      </div>
+      <div class="bento b-2x1">
+        <span class="badge-new">/plazos</span>
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <h3>Plazos procesales</h3>
+        <p>Días hábiles o corridos, con feriados nacionales 2026, feria de enero y días inhábiles propios. Determinístico, sin IA — con plazo de gracia incluido.</p>
+      </div>
+      <div class="bento b-2x1">
+        <span class="badge-new">/analizador</span>
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <h3>Analizador de escritos</h3>
+        <p>Subí una demanda, contrato o sentencia en PDF: síntesis, puntos fuertes y débiles, plazos que corren y sugerencias de acción.</p>
+      </div>
+      <div class="bento b-1x1">
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M12 3v18M5 8l-3 6a4 4 0 0 0 8 0zM19 8l-3 6a4 4 0 0 0 8 0zM3 8h18"/></svg></div>
+        <h3>Chat jurídico IA</h3>
+        <p>Derecho de fondo y procesal, estrategia y borradores de escritos, con lenguaje técnico.</p>
+      </div>
+      <div class="bento b-1x1">
+        <span class="badge-new">/agenda</span>
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Agenda de vencimientos</h3>
+        <p>Tus plazos con semáforo: vencido, próximo o en término. Sincronizable con tu Google Sheets.</p>
+      </div>
+      <div class="bento b-1x1">
+        <span class="badge-new">Nuevo</span>
+        <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <h3>Análisis por foto</h3>
+        <p>Sacale una foto a la cédula o al expediente en papel: JurIA extrae el contenido y lo analiza.</p>
+      </div>
+    </div>
+
+    <div class="included">
+      <div class="included-head">
+        <h4>También incluido</h4>
+        <span>Sin cargo extra</span>
+      </div>
+      <div class="included-grid">
+        <div class="inc-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><b>Borradores de escritos</b> — demandas, cautelares, recursos y cartas documento con campos [a completar]</div>
+        <div class="inc-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><b>Respaldo en tu Google Sheets</b> — liquidaciones, agenda y análisis en una hoja tuya, no nuestra</div>
+        <div class="inc-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><b>Todas las jurisdicciones</b> — indicá la provincia y la IA responde con el código procesal local, aclarando qué verificar</div>
+        <div class="inc-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span><b>Modo oscuro</b> — para las noches de vencimiento de plazo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section style="background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Transparencia</span>
+      <h2>Roadmap público 2026</h2>
+      <p>Qué está disponible hoy, qué viene en Fase 2 y qué planeamos para después.</p>
+    </div>
+    <div class="bento-grid">
+      <div class="bento b-2x1" style="border-color:color-mix(in srgb, var(--ok) 35%, var(--border))">
+        <h3 style="color:var(--ok-soft)">✓ Disponible hoy</h3>
+        <p>Chat jurídico IA, liquidación de intereses, calculadora de plazos procesales con feriados 2026, agenda de vencimientos con semáforo, analizador de escritos en PDF o foto y backup en Google Sheets.</p>
+      </div>
+      <div class="bento b-1x1" style="border-color:color-mix(in srgb, var(--amber) 35%, var(--border))">
+        <h3 style="color:var(--amber)">🔄 Fase 2</h3>
+        <p>Búsqueda asistida de jurisprudencia sobre fuentes abiertas (SAIJ, CSJN), biblioteca de modelos de escritos y alertas de vencimiento por WhatsApp.</p>
+      </div>
+      <div class="bento b-1x1">
+        <h3 style="color:var(--dim)">⏳ Fase 3</h3>
+        <p>Lectura de notificaciones de MEV/portales judiciales, dashboard de causas y liquidaciones con índices oficiales conectados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Flujo simple</span>
+      <h2>Tres pasos hasta el resultado</h2>
+    </div>
+    <div class="steps-wrap">
+      <div class="step">
+        <div class="stepn">1</div>
+        <div>
+          <div class="stept">Cargá tu API key de Anthropic</div>
+          <div class="stepd">Creás cuenta gratis en console.anthropic.com, generás una key y la pegás en JurIA. Nadie más la ve.</div>
+          <span class="stag">1 minuto</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="stepn">2</div>
+        <div>
+          <div class="stept">Cargá tu consulta, cálculo o PDF</div>
+          <div class="stepd">Escribí la consulta, completá el plazo o la liquidación, o arrastrá la demanda, el contrato o la sentencia.</div>
+          <span class="stag">Segundos</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="stepn">3</div>
+        <div>
+          <div class="stept">Recibí el resultado listo para trabajar</div>
+          <div class="stepd">Vencimiento con plazo de gracia, liquidación con detalle, o análisis con puntos débiles y pasos sugeridos.</div>
+          <span class="stag">Instantáneo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section style="background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)">
+  <div class="container">
+    <div class="bento" style="max-width:700px;margin:0 auto;text-align:center;padding:40px">
+      <p style="font-family:var(--serif);font-size:20px;font-style:italic;color:#fff;line-height:1.6;margin-bottom:16px">"Entre la MEV, la calculadora del colegio y el Excel de los vencimientos perdía media mañana. Ahora el primer borrador de análisis de una demanda lo tengo antes de terminar el café — y los plazos, con feriados descontados, en diez segundos."</p>
+      <div style="font-size:13px;color:var(--dim)"><b style="color:var(--mid)">M. Victoria S.</b> — Abogada litigante, Entre Ríos</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Transparente y sin sorpresas</span>
+      <h2>Planes flexibles</h2>
+      <p>El costo de la IA lo pagás directamente a Anthropic. JurIA es la plataforma que lo hace jurídico.</p>
+    </div>
+    <div class="pgrid">
+      <div class="plan">
+        <h3>Uso propio</h3>
+        <div class="price">Gratis</div>
+        <div class="period">Acceso completo · pagás solo la API (~USD 0.01–0.03 por consulta)</div>
+        <ul>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Chat jurídico IA</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Intereses y plazos procesales</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Analizador de escritos en PDF</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Agenda de vencimientos</li>
+        </ul>
+        <a href="agente-juria.html" class="btn btn-ghost" style="justify-content:center">Empezar gratis</a>
+      </div>
+      <div class="plan feat">
+        <span class="plan-badge">Recomendado</span>
+        <h3>Estudio</h3>
+        <div class="price">USD 80<small>/mes</small></div>
+        <div class="period">Por estudio · hasta 5 usuarios</div>
+        <ul>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Todo de Uso propio</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Feriados y ferias actualizados automáticamente</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Agenda compartida del estudio con alertas</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Soporte por WhatsApp (24 hs)</li>
+          <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></span>Onboarding personalizado</li>
+        </ul>
+        <a href="agente-juria.html" class="btn btn-primary" style="justify-content:center">Contratar plan →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--bg-soft);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft)">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Lo que más nos preguntan</span>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faqitem">
+        <div class="faqq" onclick="toggleFaq(this)">¿Qué pasa con el secreto profesional y mis causas?<span class="faqico">+</span></div>
+        <div class="faqa">JurIA no tiene backend propio. Tu API key y el contenido de tus consultas van directo de tu navegador a Anthropic — nosotros no vemos, guardamos ni procesamos el contenido de tus causas. Lo que decidas guardar (liquidaciones, agenda) queda en tu navegador o en tu propio Google Sheets.</div>
+      </div>
+      <div class="faqitem">
+        <div class="faqq" onclick="toggleFaq(this)">¿Puedo confiar en las citas de jurisprudencia?<span class="faqico">+</span></div>
+        <div class="faqa">No a ciegas — y JurIA es honesto con eso. La IA está instruida para no inventar fallos con carátula y fecha como si fueran verificados, y para recordarte verificar toda cita en SAIJ, CSJN o tu editorial jurídica antes de presentarla. Los cálculos de plazos, en cambio, son aritmética pura sin IA.</div>
+      </div>
+      <div class="faqitem">
+        <div class="faqq" onclick="toggleFaq(this)">¿Reemplaza mi criterio profesional o mi sistema de gestión?<span class="faqico">+</span></div>
+        <div class="faqa">No. Es una herramienta de apoyo para abogados, procuradores y magistrados: acelera cálculos, borradores y primeras lecturas de documentos. La estrategia, la firma y la responsabilidad profesional siguen siendo tuyas.</div>
+      </div>
+      <div class="faqitem">
+        <div class="faqq" onclick="toggleFaq(this)">¿Qué es una API key y cuánto cuesta?<span class="faqico">+</span></div>
+        <div class="faqa">Es una clave personal para usar la IA de Anthropic. Creás cuenta gratis en console.anthropic.com, cargás crédito y generás tu key. Con USD 5 hacés varios cientos de consultas o decenas de análisis de escritos.</div>
+      </div>
+      <div class="faqitem">
+        <div class="faqq" onclick="toggleFaq(this)">¿Sirve para mi provincia?<span class="faqico">+</span></div>
+        <div class="faqa">Sí. Indicás la jurisdicción y la IA responde con el código procesal y la normativa local que conoce, aclarando qué conviene verificar en acordadas o boletines. La calculadora de plazos te deja cargar feriados provinciales y ferias propias de tu tribunal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="contacto">
+  <div class="container">
+    <div class="cta-final">
+      <h2>Probalo ahora, gratis</h2>
+      <p>Sin registro, sin tarjeta. Solo tu API key y listo.</p>
+      <div class="hero-cta">
+        <a href="agente-juria.html" class="btn btn-primary">Abrir JurIA →</a>
+        <a href="guia-completa.html" target="_blank" class="btn btn-ghost">Leer documentación</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section style="padding-top:0">
+  <div class="container contact-wrap">
+    <div class="section-head" style="text-align:left;margin-bottom:0">
+      <span class="eyebrow">¿Tenés dudas?</span>
+      <h2>Escribinos</h2>
+      <p>¿Tenés una pregunta o una propuesta para tu estudio o juzgado? Contanos y te respondemos a la brevedad.</p>
+    </div>
+    <form class="cform" id="contactForm" action="https://formspree.io/f/TU_FORM_ID_JURIA" method="POST">
+      <div class="cfield">
+        <label for="cf-name">Nombre</label>
+        <input id="cf-name" type="text" name="name" required placeholder="Tu nombre">
+      </div>
+      <div class="cfield">
+        <label for="cf-email">Email</label>
+        <input id="cf-email" type="email" name="email" required placeholder="vos@email.com">
+      </div>
+      <div class="cfield">
+        <label for="cf-whatsapp">WhatsApp (opcional)</label>
+        <input id="cf-whatsapp" type="tel" name="whatsapp" placeholder="+54 9 343...">
+      </div>
+      <div class="cfield">
+        <label for="cf-msg">Mensaje</label>
+        <textarea id="cf-msg" name="message" required placeholder="Contanos qué necesitás..."></textarea>
+      </div>
+      <input type="hidden" name="_subject" value="Nuevo contacto — JurIA">
+      <button type="submit" class="cform-submit" id="cform-submit">Enviar mensaje</button>
+      <div class="cform-status" id="cform-status" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo-name">Jur<em>IA</em></div>
+        <p>Calculá intereses y plazos procesales, analizá escritos y consultá derecho argentino con IA. Hecho por LABStudio.pna.</p>
+      </div>
+      <div class="foot-links">
+        <b>Producto</b>
+        <a href="#features">Características</a>
+        <a href="#pricing">Precios</a>
+        <a href="guia-completa.html">Guía Completa</a>
+      </div>
+      <div class="foot-links">
+        <b>Soporte</b>
+        <a href="https://wa.me/5493435344597?text=Hola,%20quiero%20info%20sobre%20JurIA">WhatsApp</a>
+        <a href="#faq">FAQ</a>
+        <a href="terminos.html">Términos y Privacidad</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 JurIA · Todos los derechos reservados</span>
+      <span>Desarrollado por <a href="https://labstudiopna.github.io" target="_blank">LABStudio.pna</a> · Paraná, Entre Ríos, Argentina</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMobileMenu(){
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('mobile-menu').classList.toggle('active');
+}
+function closeMobileMenu(){
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('mobile-menu').classList.remove('active');
+}
+document.querySelector('.logo').addEventListener('click', closeMobileMenu);
+
+function toggleFaq(el){
+  const item=el.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faqitem').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+(function(){
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  const cards = document.querySelectorAll('.bento, .hb-tile');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      if (isTouch) return;
+      const rx = (((e.clientY - r.top) / r.height) - 0.5) * -4;
+      const ry = (((e.clientX - r.left) / r.width) - 0.5) * 4;
+      card.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(700px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+})();
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.bento, .step, .plan, .hb-tile').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  obs.observe(el);
+});
+
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('cform-submit');
+    const status = document.getElementById('cform-status');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    status.className = 'cform-status show';
+    status.textContent = '';
+    try {
+      const res = await fetch(contactForm.action, { method: 'POST', body: new FormData(contactForm), headers: { 'Accept': 'application/json' } });
+      if (res.ok) {
+        status.className = 'cform-status show ok';
+        status.textContent = '¡Listo! Te respondemos a la brevedad.';
+        contactForm.reset();
+      } else { throw new Error('error'); }
+    } catch (err) {
+      status.className = 'cform-status show err';
+      status.textContent = 'No pudimos enviar el mensaje. Escribinos por WhatsApp.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Enviar mensaje';
+    }
+  });
+}
+</script>
+</body>
+</html>
