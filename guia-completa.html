@@ -112,12 +112,13 @@ footer a{color:var(--brand-light);text-decoration:none}
       <li><a href="#intereses">3. Cálculo de intereses y actualización</a></li>
       <li><a href="#plazos">4. Calculadora de plazos procesales</a></li>
       <li><a href="#agenda">5. Agenda de vencimientos</a></li>
-      <li><a href="#analizador">6. Analizador de escritos y documentos</a></li>
-      <li><a href="#sheets">7. Respaldo y sincronización con Google Sheets</a></li>
-      <li><a href="#roadmap">8. Qué viene: jurisprudencia y modelos de escritos</a></li>
-      <li><a href="#costos">9. Cuánto cuesta usarlo</a></li>
-      <li><a href="#privacidad">10. Dónde viven tus datos (y el secreto profesional)</a></li>
-      <li><a href="#faq">11. Preguntas frecuentes</a></li>
+      <li><a href="#analizador">6. Analizador de escritos y documentos (con redline de contratos)</a></li>
+      <li><a href="#nuevos">7. Prescripción, modelos, honorarios, traductor y jurisprudencia</a></li>
+      <li><a href="#sheets">8. Respaldo y sincronización con Google Sheets</a></li>
+      <li><a href="#roadmap">9. Qué viene en las próximas fases</a></li>
+      <li><a href="#costos">10. Cuánto cuesta usarlo</a></li>
+      <li><a href="#privacidad">11. Dónde viven tus datos (y el secreto profesional)</a></li>
+      <li><a href="#faq">12. Preguntas frecuentes</a></li>
     </ul>
   </div>
 
@@ -195,12 +196,27 @@ footer a{color:var(--brand-light);text-decoration:none}
       <li><strong>Plazos y cargas</strong> — qué plazos corren a partir del documento y para quién</li>
       <li><strong>Sugerencias de acción</strong> — pasos concretos para el profesional</li>
     </ul>
-    <p>Podés sumar una consulta específica ("¿qué excepciones previas me conviene oponer?") y la responde dentro del análisis.</p>
+    <p>Podés sumar una consulta específica ("¿qué excepciones previas me conviene oponer?") y la responde dentro del análisis. Para contratos, tildá <strong>"Incluir redline de cláusulas"</strong>: suma una sección con las cláusulas más riesgosas en formato cláusula original → redacción sugerida → riesgo que mitiga.</p>
     <div class="tip">💡 Para documentos largos o complejos, elegí el modelo Sonnet 5 arriba — el análisis gana bastante profundidad.</div>
   </section>
 
+  <section id="nuevos">
+    <h2>7. Prescripción, modelos, honorarios, traductor y jurisprudencia</h2>
+    <h3>⏳ Semáforo de prescripción (sin IA)</h3>
+    <p>Elegís el tipo de acción (plazo genérico de 5 años del art. 2560 CCyC, responsabilidad civil 3 años, laboral 2 años, vicios redhibitorios 1 año, o un plazo especial a mano) y la fecha de inicio del cómputo. Te devuelve la fecha estimada de prescripción con semáforo: rojo (prescripta), naranja (menos de 6 meses), verde (en término). Podés guardarla en la Agenda.</p>
+    <div class="warning"><p><strong>Ojo:</strong> no contempla suspensión, interrupción ni dispensa (arts. 2539-2572 CCyC) — es una alerta de trabajo, no un dictamen sobre el cómputo.</p></div>
+    <h3>📝 Modelos de escritos</h3>
+    <p>Elegís el tipo (demanda de daños, contestación, cautelar, apelación, carta documento, demanda laboral, desalojo, alegato, convenio de honorarios), indicás jurisdicción y hechos, y la IA redacta el borrador completo con estructura forense y campos [ENTRE CORCHETES]. Botón para copiar y pegar en tu procesador de texto.</p>
+    <h3>💰 Estimador de honorarios</h3>
+    <p>Estimación orientativa del rango regulable según la ley arancelaria de la jurisdicción (Ley 27.423 UMA, 14.967 JUS de PBA, 7.046 de Entre Ríos, etc.), el monto del proceso y las etapas cumplidas. La IA cita la base legal y el último valor de la unidad que conoce, siempre marcado para verificar — el valor de la UMA/JUS cambia seguido.</p>
+    <h3>🗣️ Traductor jurídico → cliente</h3>
+    <p>Pegás la parte resolutiva de una sentencia o cédula, indicás si es buena, mala o neutra para tu cliente, y te devuelve un mensaje breve en lenguaje llano listo para WhatsApp: qué pasó, qué significa y qué sigue. Revisalo antes de enviar.</p>
+    <h3>📚 Búsqueda asistida de jurisprudencia</h3>
+    <p>Describís la cuestión jurídica y tu postura: la IA te mapea las líneas jurisprudenciales que conoce (a favor y en contra, siempre "a verificar") y te arma los términos de búsqueda exactos para pegar en SAIJ y el buscador de la CSJN, con accesos directos a ambos.</p>
+  </section>
+
   <section id="sheets">
-    <h2>7. Respaldo y sincronización con Google Sheets</h2>
+    <h2>8. Respaldo y sincronización con Google Sheets</h2>
     <p>En la pestaña <strong>Backup</strong> podés conectar tu cuenta de Google. JurIA crea automáticamente una hoja "JurIA - Mis Datos" en tu propio Drive, con pestañas para liquidaciones de intereses, agenda de vencimientos y registro de análisis.</p>
     <ul>
       <li>Tocás <strong>Conectar con Google</strong> y aceptás los permisos (spreadsheets y Drive, solo para archivos que crea JurIA).</li>
@@ -210,31 +226,32 @@ footer a{color:var(--brand-light);text-decoration:none}
   </section>
 
   <section id="roadmap">
-    <h2>8. Qué viene: jurisprudencia y modelos de escritos</h2>
+    <h2>9. Qué viene en las próximas fases</h2>
     <ul>
-      <li><strong>Búsqueda de jurisprudencia (Fase 2):</strong> búsqueda asistida sobre fuentes abiertas (SAIJ, CSJN) con resumen de fallos.</li>
-      <li><strong>Modelos de escritos (Fase 2):</strong> biblioteca de modelos (demanda, cautelares, recursos) que la IA adapta a tu caso y jurisdicción.</li>
+      <li><strong>Fase 2 (pendiente):</strong> cronología del caso (timeline a partir de varios PDFs del expediente), preparación de audiencia (pliegos, puntos de pericia, preguntas a testigos) y alertas de vencimiento por WhatsApp.</li>
       <li><strong>Fase 3:</strong> lectura de notificaciones de MEV/portales judiciales, dashboard de causas y liquidaciones con índices oficiales conectados.</li>
     </ul>
-    <div class="tip">💡 Mientras tanto, el Chat ya orienta sobre líneas jurisprudenciales (para verificar en SAIJ) y redacta borradores de escritos si le pasás los hechos.</div>
+    <div class="tip">💡 Modelos de escritos y búsqueda asistida de jurisprudencia, que estaban en Fase 2, ya están disponibles.</div>
   </section>
 
   <section id="costos">
-    <h2>9. Cuánto cuesta usarlo</h2>
+    <h2>10. Cuánto cuesta usarlo</h2>
     <table>
       <tr><th>Acción</th><th>Costo aproximado en API</th></tr>
       <tr><td>Consulta al chat jurídico</td><td>Menos de USD 0,01</td></tr>
       <tr><td>Cálculo de plazo procesal</td><td>Gratis (sin IA)</td></tr>
       <tr><td>Liquidación con tasa propia</td><td>Gratis (sin IA)</td></tr>
       <tr><td>Estimación de intereses con tasa de referencia</td><td>Menos de USD 0,01</td></tr>
+      <tr><td>Cálculo de prescripción</td><td>Gratis (sin IA)</td></tr>
       <tr><td>Análisis de un escrito en PDF</td><td>USD 0,01 – 0,03</td></tr>
       <tr><td>Borrador de escrito completo (Sonnet)</td><td>USD 0,02 – 0,05</td></tr>
+      <tr><td>Estimación de honorarios / traducción para cliente / orientación jurisprudencial</td><td>Menos de USD 0,01 c/u</td></tr>
     </table>
     <p>Con USD 5 de crédito tenés para meses de uso normal. El <strong>Plan Estudio</strong> (USD 80/mes) suma onboarding 1 a 1, soporte por WhatsApp 24 hs, feriados y ferias actualizados automáticamente y agenda compartida del estudio — el producto es el mismo.</p>
   </section>
 
   <section id="privacidad">
-    <h2>10. Dónde viven tus datos (y el secreto profesional)</h2>
+    <h2>11. Dónde viven tus datos (y el secreto profesional)</h2>
     <ul>
       <li><strong>Tu API key:</strong> en la sesión del navegador, se borra al cerrar la pestaña.</li>
       <li><strong>Consultas y documentos:</strong> van directo de tu navegador a Anthropic. LABStudio no los ve ni los guarda — no hay servidor nuestro en el medio.</li>
@@ -245,7 +262,7 @@ footer a{color:var(--brand-light);text-decoration:none}
   </section>
 
   <section id="faq">
-    <h2>11. Preguntas frecuentes</h2>
+    <h2>12. Preguntas frecuentes</h2>
     <details class="faq"><summary>¿Funciona en el celular?</summary><p>Sí, completo y sin instalar nada. Podés sacarle una foto a una cédula o al expediente en papel y analizarla desde tribunales.</p></details>
     <details class="faq"><summary>¿Puedo confiar en las citas de jurisprudencia?</summary><p>No a ciegas. JurIA está instruido para no presentar fallos inventados como verificados y para recordarte chequear en SAIJ o tu editorial. Los cálculos de plazos y las liquidaciones con tasa propia, en cambio, son aritmética pura sin IA.</p></details>
     <details class="faq"><summary>¿Reemplaza mi sistema de gestión o la MEV?</summary><p>No. Es un complemento liviano: acelera cálculos, borradores y primeras lecturas. Las notificaciones electrónicas y el expediente siguen en el portal de tu jurisdicción.</p></details>

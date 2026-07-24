@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Códigos y normativa — JurIA</title>
+<meta name="description" content="Biblioteca de links oficiales: códigos de fondo y procesales de la Nación y de las 24 jurisdicciones argentinas — civil, penal, laboral, administrativo, tributario y aduanero.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="tracker.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#7C2136;--brand-light:#A84459;--accent:#C9A227;
+  --border:#EBDCE1;--text:#2A1A1F;--mid:#7A6068;--dim:#9A7F88;
+  --heading:#7C2136;
+  --bg-page:#FBF8F9;--surface:#fff;--surface-2:#F6EDF0;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+[data-theme="dark"]{
+  --border:rgba(255,255,255,.12);--text:#F6EDF0;--mid:#BC9BA6;--dim:#96707D;
+  --heading:#DE8B9C;
+  --bg-page:#160B10;--surface:#26141B;--surface-2:#1F1016;
+}
+body{font-family:var(--sans);color:var(--text);background:var(--bg-page);line-height:1.7;transition:background .2s,color .2s}
+
+header{position:sticky;top:0;z-index:100;background:var(--bg-page);border-bottom:1px solid var(--border);padding:0 24px}
+.nav{max-width:900px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--heading);text-decoration:none}
+.logo em{font-style:italic;color:var(--accent)}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{color:var(--mid);text-decoration:none;font-size:14px;font-weight:500}
+.nav-links a:hover{color:var(--heading)}
+.nav-cta{background:var(--brand);color:#fff !important;padding:9px 18px;border-radius:10px;font-weight:600}
+#theme-toggle{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px}
+
+.container{max-width:840px;margin:0 auto;padding:60px 24px 100px}
+h1{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:600;color:var(--heading);margin-bottom:8px}
+.subtitulo{color:var(--dim);font-size:14px;margin-bottom:40px}
+
+section{margin-bottom:48px;scroll-margin-top:80px}
+h2{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--heading);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+h3{font-size:16px;font-weight:600;color:var(--heading);margin:22px 0 8px}
+p{color:var(--mid);margin-bottom:14px;font-size:15px}
+strong{color:var(--text);font-weight:600}
+a.inline{color:var(--brand-light);text-decoration:none}
+a.inline:hover{text-decoration:underline}
+
+.hubs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:18px 0}
+.hub{display:block;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;text-decoration:none;transition:border-color .15s}
+.hub:hover{border-color:var(--brand-light)}
+.hub b{display:block;color:var(--heading);font-size:14.5px;margin-bottom:4px}
+.hub span{font-size:12.5px;color:var(--dim);line-height:1.5;display:block}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:var(--surface-2);color:var(--heading);text-align:left;padding:10px 12px;border:1px solid var(--border)}
+td{padding:10px 12px;border:1px solid var(--border);color:var(--mid);vertical-align:top}
+td a{color:var(--brand-light);text-decoration:none}
+td a:hover{text-decoration:underline}
+
+.warning{background:rgba(201,162,39,.10);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0}
+.warning p{margin:0;color:var(--text);font-size:14px}
+.tip{font-size:13.5px;color:var(--mid);background:var(--surface-2);border:1px dashed var(--border);border-radius:10px;padding:12px 16px;margin:12px 0}
+
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;color:var(--dim);font-size:13px}
+footer a{color:var(--brand-light);text-decoration:none}
+
+@media(max-width:640px){
+  .container{padding:40px 16px 60px}
+  .nav-links a:not(.nav-cta){display:none}
+  table{font-size:12.5px}
+  th,td{padding:8px 8px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">Jur<em>IA</em></a>
+    <div class="nav-links">
+      <a href="index.html">← Volver a inicio</a>
+      <a href="guia-completa.html">Guía</a>
+      <a href="agente-juria.html" class="nav-cta">Ir al Agente →</a>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Códigos y normativa</h1>
+  <p class="subtitulo">Links oficiales a los códigos de fondo y procesales — Nación y las 24 jurisdicciones. Última revisión: 24 de julio de 2026</p>
+
+  <div class="warning"><p><strong>Siempre el texto vigente:</strong> usá los links de Infoleg / argentina.gob.ar en su versión "texto actualizado". Las reformas procesales son frecuentes — verificá la fecha de última actualización antes de citar un artículo.</p></div>
+
+  <section id="hubs">
+    <h2>Bibliotecas oficiales (todo en un lugar)</h2>
+    <div class="hubs">
+      <a class="hub" href="https://www.argentina.gob.ar/normativa/codigos" target="_blank"><b>argentina.gob.ar — Códigos nacionales</b><span>Todos los códigos de la Nación con texto actualizado</span></a>
+      <a class="hub" href="https://www.argentina.gob.ar/normativa/codigos/provinciales" target="_blank"><b>argentina.gob.ar — Códigos provinciales</b><span>Códigos de las 23 provincias y CABA, por jurisdicción</span></a>
+      <a class="hub" href="https://www.infoleg.gob.ar/?page_id=87" target="_blank"><b>Infoleg — Códigos provinciales</b><span>Índice de códigos por provincia del sistema Infoleg</span></a>
+      <a class="hub" href="https://www.saij.gob.ar/" target="_blank"><b>SAIJ</b><span>Legislación nacional y provincial, jurisprudencia y doctrina gratuitas</span></a>
+      <a class="hub" href="http://www.biblioteca.jus.gov.ar/codigos-argentina-provinciales.html" target="_blank"><b>Biblioteca Digital — Min. Justicia</b><span>Códigos provinciales digitalizados</span></a>
+      <a class="hub" href="https://biblioteca.afip.gob.ar/" target="_blank"><b>Biblioteca AFIP/ARCA</b><span>Normativa tributaria y aduanera consolidada</span></a>
+    </div>
+  </section>
+
+  <section id="fondo">
+    <h2>Códigos de fondo — Nación</h2>
+    <p style="font-size:13px;">Links directos al <strong>texto actualizado</strong> en Infoleg (verificados).</p>
+    <table>
+      <tr><th>Código</th><th>Norma</th><th>Texto oficial</th></tr>
+      <tr><td>Código Civil y Comercial de la Nación</td><td>Ley 26.994</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/235000-239999/235975/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Código Penal</td><td>Ley 11.179 (t.o. 1984)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16546/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Ley de Contrato de Trabajo</td><td>Ley 20.744 (t.o. 1976)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25552/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Ley General de Sociedades</td><td>Ley 19.550 (t.o. 1984)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/25000-29999/25553/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Ley de Concursos y Quiebras</td><td>Ley 24.522</td><td><a href="https://www.argentina.gob.ar/normativa/nacional/ley-24522-25379/actualizacion" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Defensa del Consumidor</td><td>Ley 24.240</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/638/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Ley General del Ambiente</td><td>Ley 25.675</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/75000-79999/79980/norma.htm" target="_blank">Texto ↗</a></td></tr>
+      <tr><td>Código Aduanero</td><td>Ley 22.415</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16536/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Código de Minería, Electoral, Aeronáutico y demás</td><td>—</td><td><a href="https://www.argentina.gob.ar/normativa/codigos" target="_blank">Ver índice completo ↗</a></td></tr>
+    </table>
+  </section>
+
+  <section id="procesal-nacion">
+    <h2>Códigos y leyes procesales — Nación</h2>
+    <table>
+      <tr><th>Materia</th><th>Norma</th><th>Texto oficial</th></tr>
+      <tr><td>Procesal Civil y Comercial (CPCCN)</td><td>Ley 17.454 (t.o. 1981)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16547/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Procesal Penal de la Nación (CPPN)</td><td>Ley 23.984</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/383/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Procesal Penal Federal (CPPF, sistema acusatorio)</td><td>Ley 27.063 — t.o. 2019</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=319681" target="_blank">Texto ordenado 2019 ↗</a></td></tr>
+      <tr><td>Procedimiento Laboral (Justicia Nacional del Trabajo)</td><td>Ley 18.345 (t.o. 1998)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/verNorma.do?id=45628" target="_blank">Ficha y texto actualizado ↗</a></td></tr>
+      <tr><td>Procedimientos Administrativos</td><td>Ley 19.549 y Dto. 1759/72</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/20000-24999/22363/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Procedimiento Tributario (ante ARCA y Tribunal Fiscal)</td><td>Ley 11.683 (t.o. 1998)</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/18771/texact.htm" target="_blank">Texto actualizado ↗</a></td></tr>
+      <tr><td>Procedimiento aduanero (impugnación, repetición, infracciones y delitos — Secciones XII a XIV)</td><td>Ley 22.415 arts. 1001 y ss.</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/15000-19999/16536/texact.htm" target="_blank">Dentro del Código Aduanero ↗</a></td></tr>
+      <tr><td>Amparo</td><td>Ley 16.986</td><td><a href="https://www.argentina.gob.ar/normativa/codigos" target="_blank">Buscar en índice ↗</a></td></tr>
+    </table>
+    <div class="tip">💡 El procedimiento aduanero no es un código aparte: está dentro del propio Código Aduanero (Ley 22.415), Sección XIV "Procedimientos" — impugnación, repetición, ejecución y procedimientos por infracciones y delitos aduaneros, más el recurso ante el Tribunal Fiscal (Ley 11.683).</div>
+  </section>
+
+  <section id="provincias">
+    <h2>Códigos procesales por provincia</h2>
+    <p>Cada jurisdicción tiene su propio CPCC y CPP (y muchas, código procesal laboral y contencioso administrativo propios). Los textos están en el <a class="inline" href="https://www.argentina.gob.ar/normativa/codigos/provinciales" target="_blank">índice oficial de códigos provinciales</a> y en <a class="inline" href="https://www.infoleg.gob.ar/?page_id=87" target="_blank">Infoleg provinciales</a>. Acá el portal judicial de cada jurisdicción, donde además están las acordadas y ferias:</p>
+    <table>
+      <tr><th>Jurisdicción</th><th>Portal judicial / normativa</th></tr>
+      <tr><td>CABA (fueros locales)</td><td><a href="https://www.jusbaires.gob.ar/" target="_blank">jusbaires.gob.ar ↗</a></td></tr>
+      <tr><td>Buenos Aires</td><td><a href="https://www.scba.gov.ar/" target="_blank">scba.gov.ar ↗</a> · <a href="https://normas.gba.gob.ar/" target="_blank">normas.gba.gob.ar ↗</a></td></tr>
+      <tr><td>Catamarca</td><td><a href="https://www.juscatamarca.gob.ar/" target="_blank">juscatamarca.gob.ar ↗</a></td></tr>
+      <tr><td>Chaco</td><td><a href="https://www.justiciachaco.gov.ar/" target="_blank">justiciachaco.gov.ar ↗</a></td></tr>
+      <tr><td>Chubut</td><td><a href="https://www.juschubut.gov.ar/organizacion/dependientes-administracion-general/direccion-de-bibliotecas/legislacion-provincial.html" target="_blank">juschubut.gov.ar — legislación ↗</a></td></tr>
+      <tr><td>Córdoba</td><td><a href="https://www.justiciacordoba.gob.ar/" target="_blank">justiciacordoba.gob.ar ↗</a></td></tr>
+      <tr><td>Corrientes</td><td><a href="https://www.juscorrientes.gov.ar/" target="_blank">juscorrientes.gov.ar ↗</a></td></tr>
+      <tr><td>Entre Ríos</td><td><a href="https://www.jusentrerios.gov.ar/" target="_blank">jusentrerios.gov.ar ↗</a></td></tr>
+      <tr><td>Formosa</td><td><a href="https://www.jusformosa.gob.ar/" target="_blank">jusformosa.gob.ar ↗</a></td></tr>
+      <tr><td>Jujuy</td><td><a href="https://www.justiciajujuy.gov.ar/legislacion/" target="_blank">justiciajujuy.gov.ar — legislación ↗</a></td></tr>
+      <tr><td>La Pampa</td><td><a href="https://www.juslapampa.gob.ar/" target="_blank">juslapampa.gob.ar ↗</a></td></tr>
+      <tr><td>La Rioja</td><td><a href="https://www.justicialarioja.gob.ar/" target="_blank">justicialarioja.gob.ar ↗</a></td></tr>
+      <tr><td>Mendoza</td><td><a href="https://www.jus.mendoza.gov.ar/" target="_blank">jus.mendoza.gov.ar ↗</a></td></tr>
+      <tr><td>Misiones</td><td><a href="https://www.jusmisiones.gov.ar/" target="_blank">jusmisiones.gov.ar ↗</a></td></tr>
+      <tr><td>Neuquén</td><td><a href="https://www.jusneuquen.gov.ar/" target="_blank">jusneuquen.gov.ar ↗</a></td></tr>
+      <tr><td>Río Negro</td><td><a href="https://www.jusrionegro.gov.ar/" target="_blank">jusrionegro.gov.ar ↗</a></td></tr>
+      <tr><td>Salta</td><td><a href="https://www.justiciasalta.gov.ar/" target="_blank">justiciasalta.gov.ar ↗</a></td></tr>
+      <tr><td>San Juan</td><td><a href="https://www.jussanjuan.gov.ar/" target="_blank">jussanjuan.gov.ar ↗</a></td></tr>
+      <tr><td>San Luis</td><td><a href="https://www.justiciasanluis.gov.ar/" target="_blank">justiciasanluis.gov.ar ↗</a></td></tr>
+      <tr><td>Santa Cruz</td><td><a href="https://www.jussantacruz.gob.ar/" target="_blank">jussantacruz.gob.ar ↗</a></td></tr>
+      <tr><td>Santa Fe</td><td><a href="https://www.justiciasantafe.gov.ar/" target="_blank">justiciasantafe.gov.ar ↗</a></td></tr>
+      <tr><td>Santiago del Estero</td><td><a href="https://www.jussantiago.gov.ar/" target="_blank">jussantiago.gov.ar ↗</a></td></tr>
+      <tr><td>Tierra del Fuego</td><td><a href="https://www.justierradelfuego.gov.ar/" target="_blank">justierradelfuego.gov.ar ↗</a></td></tr>
+      <tr><td>Tucumán</td><td><a href="https://www.justucuman.gov.ar/" target="_blank">justucuman.gov.ar ↗</a></td></tr>
+    </table>
+    <div class="warning"><p><strong>Nota:</strong> algunos portales provinciales cambian de dominio o estructura. Si un link no responde, buscá "[provincia] poder judicial" o usá los índices de argentina.gob.ar / Infoleg de arriba, que se mantienen estables.</p></div>
+  </section>
+
+  <section id="dipr">
+    <h2>Derecho internacional privado y público</h2>
+    <table>
+      <tr><th>Materia</th><th>Fuente</th><th>Link</th></tr>
+      <tr><td>DIPr argentino (jurisdicción, ley aplicable, parte especial)</td><td>CCyC, Libro Sexto, Título IV — arts. 2594 a 2671</td><td><a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/235000-239999/235975/texact.htm" target="_blank">Dentro del CCyC ↗</a></td></tr>
+      <tr><td>Convenciones interamericanas (CIDIP I a VII) y Tratados de Montevideo</td><td>OEA — Departamento de Derecho Internacional</td><td><a href="https://www.oas.org/es/sla/ddi/derecho_internacional_privado.asp" target="_blank">oas.org — DIPr ↗</a></td></tr>
+      <tr><td>Convenios de La Haya (apostilla, restitución de menores, notificaciones, prueba)</td><td>Conferencia de La Haya (HCCH)</td><td><a href="https://www.hcch.net/es/home" target="_blank">hcch.net ↗</a></td></tr>
+      <tr><td>Compraventa internacional (CISG) y arbitraje comercial</td><td>CNUDMI / UNCITRAL</td><td><a href="https://uncitral.un.org/es" target="_blank">uncitral.un.org ↗</a></td></tr>
+      <tr><td>Tratados vigentes para la Argentina</td><td>Biblioteca Digital de Tratados — Cancillería</td><td><a href="https://tratados.cancilleria.gob.ar/" target="_blank">tratados.cancilleria.gob.ar ↗</a></td></tr>
+      <tr><td>Normativa Mercosur (protocolos de Las Leñas, Buenos Aires, Ouro Preto)</td><td>Secretaría del Mercosur</td><td><a href="https://www.mercosur.int/documentos-y-normativa/" target="_blank">mercosur.int ↗</a></td></tr>
+    </table>
+  </section>
+
+  <section id="fuentes">
+    <h2>Fuentes del derecho — dónde consultar cada una</h2>
+    <table>
+      <tr><th>Fuente</th><th>Dónde</th></tr>
+      <tr><td><strong>Ley</strong> (nacional y provincial)</td><td><a href="https://www.infoleg.gob.ar/" target="_blank">Infoleg ↗</a> · <a href="https://www.saij.gob.ar/" target="_blank">SAIJ ↗</a> · <a href="https://www.boletinoficial.gob.ar/" target="_blank">Boletín Oficial ↗</a></td></tr>
+      <tr><td><strong>Jurisprudencia</strong> (precedentes, plenarios, doctrina CSJN)</td><td><a href="https://sjconsulta.csjn.gov.ar/" target="_blank">Fallos CSJN ↗</a> · <a href="https://www.saij.gob.ar/" target="_blank">SAIJ ↗</a> · <a href="https://www.cij.gov.ar/" target="_blank">CIJ ↗</a></td></tr>
+      <tr><td><strong>Doctrina</strong> (artículos de autores)</td><td><a href="https://www.saij.gob.ar/" target="_blank">SAIJ — sección Doctrina ↗</a></td></tr>
+      <tr><td><strong>Costumbre, usos y prácticas</strong> (art. 1 CCyC)</td><td>Vinculantes cuando la ley remite a ellos o en situaciones no regladas — se prueban con usos del lugar, prácticas forenses y cámaras sectoriales; no tienen repositorio único</td></tr>
+      <tr><td><strong>Principios generales del derecho</strong></td><td>Arts. 1 y 2 CCyC (interpretación conforme CN y tratados de DDHH) — <a href="https://servicios.infoleg.gob.ar/infolegInternet/anexos/235000-239999/235975/texact.htm" target="_blank">texto ↗</a></td></tr>
+      <tr><td><strong>Tratados internacionales</strong> (jerarquía art. 75 inc. 22 CN)</td><td><a href="https://tratados.cancilleria.gob.ar/" target="_blank">Biblioteca de Tratados ↗</a> · <a href="http://servicios.infoleg.gob.ar/infolegInternet/anexos/0-4999/804/norma.htm" target="_blank">Constitución Nacional ↗</a></td></tr>
+    </table>
+  </section>
+
+  <section id="diccionario">
+    <h2>Diccionarios jurídicos</h2>
+    <div class="hubs">
+      <a class="hub" href="https://dpej.rae.es/" target="_blank"><b>Diccionario panhispánico del español jurídico (RAE)</b><span>El diccionario jurídico de referencia, gratuito, con voces de todas las ramas y variantes por país</span></a>
+      <a class="hub" href="https://www.saij.gob.ar/" target="_blank"><b>Tesauro SAIJ</b><span>Vocabulario controlado del sistema argentino de información jurídica, útil para afinar búsquedas</span></a>
+    </div>
+    <div class="tip">💡 También podés pedirle al <a class="inline" href="agente-juria.html">chat de JurIA</a> la definición de cualquier instituto con sus fuentes normativas: "¿qué es la astreinte y dónde está regulada?"</div>
+  </section>
+
+  <section id="juris">
+    <h2>Jurisprudencia y doctrina gratuitas</h2>
+    <div class="hubs">
+      <a class="hub" href="https://www.saij.gob.ar/" target="_blank"><b>SAIJ</b><span>Jurisprudencia nacional y provincial + doctrina</span></a>
+      <a class="hub" href="https://sjconsulta.csjn.gov.ar/" target="_blank"><b>CSJN — Sumarios y fallos</b><span>Buscador oficial de la Corte Suprema</span></a>
+      <a class="hub" href="https://www.cij.gov.ar/" target="_blank"><b>CIJ — Centro de Información Judicial</b><span>Fallos destacados y novedades del PJN</span></a>
+      <a class="hub" href="https://www.bcra.gob.ar/en/interest-calculator-for-employees-legal-claims/" target="_blank"><b>Calculadora BCRA — Ley 27.802</b><span>Actualización oficial de créditos laborales</span></a>
+    </div>
+  </section>
+
+  <p style="text-align:center;margin-top:40px;">
+    <a href="agente-juria.html" style="display:inline-block;background:var(--brand);color:#fff;padding:14px 28px;border-radius:12px;font-weight:600;text-decoration:none;">Consultar estos códigos con el Agente →</a>
+  </p>
+</div>
+
+<footer>
+  <p>JurIA — Desarrollado por <a href="https://labstudiopna.github.io" target="_blank">LABStudio.pna</a> · Paraná, Entre Ríos, Argentina</p>
+</footer>
+
+<script>
+  (function() {
+    const savedTheme = localStorage.getItem('juria_theme') || 'light';
+    if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  function applyTheme(theme) {
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('juria_theme', next);
+    applyTheme(next);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(localStorage.getItem('juria_theme') || 'light');
+  });
+</script>
+
+</body>
+</html>

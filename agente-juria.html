@@ -206,10 +206,13 @@ table.data tr:hover td{background:var(--bg-alt)}
     <button class="tab-btn active" data-tab="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="vertical-align:-3px;margin-right:4px;flex-shrink:0"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>Chat jurídico</button>
     <button class="tab-btn" data-tab="intereses">🧮 Intereses</button>
     <button class="tab-btn" data-tab="plazos">📅 Plazos procesales</button>
+    <button class="tab-btn" data-tab="prescripcion">⏳ Prescripción</button>
     <button class="tab-btn" data-tab="agenda">⏰ Agenda de vencimientos</button>
     <button class="tab-btn" data-tab="analizador">📄 Analizador de escritos</button>
-    <button class="tab-btn" data-tab="jurisprudencia">📚 Jurisprudencia <span class="soon-tag">fase 2</span></button>
-    <button class="tab-btn" data-tab="modelos">📝 Modelos de escritos <span class="soon-tag">fase 2</span></button>
+    <button class="tab-btn" data-tab="modelos">📝 Modelos de escritos</button>
+    <button class="tab-btn" data-tab="honorarios">💰 Honorarios</button>
+    <button class="tab-btn" data-tab="cliente">🗣️ Traductor para clientes</button>
+    <button class="tab-btn" data-tab="jurisprudencia">📚 Jurisprudencia</button>
     <button class="tab-btn" data-tab="memoria">🔄 Backup</button>
   </div>
 
@@ -340,6 +343,7 @@ table.data tr:hover td{background:var(--bg-alt)}
         </div>
         <div class="field"><label for="anPregunta">Consulta específica (opcional)</label><input id="anPregunta" type="text" placeholder="Ej: ¿qué excepciones previas me conviene oponer?"></div>
       </div>
+      <div class="check-row"><input type="checkbox" id="anRedline"><label for="anRedline" style="margin:0;font-weight:500;">Incluir redline de cláusulas (para contratos): cláusula original → redacción sugerida → riesgo que mitiga</label></div>
       <div class="dropzone" id="anDrop">📎 Arrastrá el PDF acá o hacé clic para elegirlo<br><span style="font-size:12px;">También acepta foto/imagen del documento</span></div>
       <input type="file" id="anFile" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
       <p id="anFileName" style="font-size:12.5px;color:var(--muted);margin-top:10px;min-height:16px;"></p>
@@ -349,18 +353,140 @@ table.data tr:hover td{background:var(--bg-alt)}
     <p class="disclaimer">⚠️ El análisis es un borrador de trabajo para el profesional — no un dictamen. La IA puede omitir cuestiones o citar mal: leé siempre el documento original completo antes de decidir estrategia. El PDF se procesa en tu navegador y va directo a la API de Anthropic; no pasa por servidores nuestros.</p>
   </section>
 
-  <!-- JURISPRUDENCIA (fase 2) -->
+  <!-- JURISPRUDENCIA ASISTIDA -->
   <section class="panel" id="panel-jurisprudencia">
-    <h2>📚 Búsqueda de jurisprudencia</h2>
-    <p class="sub">Búsqueda asistida sobre fuentes abiertas (SAIJ, CSJN) con resumen de fallos.</p>
-    <div class="card"><p class="empty">🔄 Fase 2 del roadmap. Mientras tanto, podés pedirle al chat que te oriente sobre líneas jurisprudenciales y luego verificar en <a href="https://www.saij.gob.ar/" target="_blank" style="color:var(--accent);">SAIJ</a>.</p></div>
+    <h2>📚 Búsqueda asistida de jurisprudencia</h2>
+    <p class="sub">Describí la cuestión jurídica: la IA te orienta sobre las líneas jurisprudenciales y plenarios que conoce, y te arma los términos de búsqueda exactos para verificarlos en SAIJ y CSJN.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field"><label for="juTema">Cuestión jurídica</label><input id="juTema" type="text" placeholder="Ej: cuantificación del daño moral en accidentes de tránsito"></div>
+        <div class="field"><label for="juJurisdiccion">Jurisdicción / fuero (opcional)</label><input id="juJurisdiccion" type="text" placeholder="Ej: CSJN, SCBA, cámaras civiles de Entre Ríos"></div>
+      </div>
+      <div class="field"><label for="juPostura">¿Qué postura querés fundar? (opcional)</label><input id="juPostura" type="text" placeholder="Ej: represento al actor, busco criterios amplios de reparación"></div>
+      <button class="btn btn-brand" id="juBuscarBtn">Orientarme sobre la jurisprudencia</button>
+      <div id="juResult"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">
+        <a class="btn btn-ghost" href="https://www.saij.gob.ar/" target="_blank" style="text-decoration:none;">Verificar en SAIJ ↗</a>
+        <a class="btn btn-ghost" href="https://sjconsulta.csjn.gov.ar/" target="_blank" style="text-decoration:none;">Fallos CSJN ↗</a>
+        <a class="btn btn-ghost" href="https://www.cij.gov.ar/" target="_blank" style="text-decoration:none;">CIJ ↗</a>
+      </div>
+    </div>
+    <p class="disclaimer">⚠️ La IA orienta sobre líneas y doctrinas que conoce hasta su fecha de corte — puede haber fallos posteriores que cambien el criterio, y toda cita con carátula y fecha debe verificarse antes de usarse en un escrito. Este módulo no consulta bases de datos en vivo: la verificación en SAIJ/CSJN es tuya.</p>
   </section>
 
-  <!-- MODELOS (fase 2) -->
+  <!-- PRESCRIPCIÓN -->
+  <section class="panel" id="panel-prescripcion">
+    <h2>⏳ Semáforo de prescripción</h2>
+    <p class="sub">Elegí el tipo de acción y la fecha de inicio del cómputo: te muestra el plazo del CCyC/LCT, la fecha estimada de prescripción y cuánto margen te queda. Cálculo determinístico, sin IA.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field">
+          <label for="prAccion">Tipo de acción</label>
+          <select id="prAccion">
+            <option value="5|Plazo genérico (art. 2560 CCyC)">Genérica — 5 años (art. 2560 CCyC)</option>
+            <option value="3|Responsabilidad civil (art. 2561 2º párr. CCyC)">Responsabilidad civil (daños) — 3 años (art. 2561 CCyC)</option>
+            <option value="2|Créditos laborales (art. 256 LCT)">Créditos laborales — 2 años (art. 256 LCT)</option>
+            <option value="2|Prestaciones periódicas (art. 2562 inc. c CCyC)">Prestaciones periódicas — 2 años (art. 2562 CCyC)</option>
+            <option value="2|Nulidad relativa / revisión de actos (art. 2562 inc. a CCyC)">Nulidad relativa — 2 años (art. 2562 CCyC)</option>
+            <option value="1|Vicios redhibitorios (art. 2564 inc. a CCyC)">Vicios redhibitorios — 1 año (art. 2564 CCyC)</option>
+            <option value="10|Daños por agresiones sexuales a incapaces (art. 2561 1º párr. CCyC)">Agresiones sexuales a incapaces — 10 años (art. 2561 CCyC)</option>
+            <option value="custom|Plazo especial (lo ingresás vos)">Otro plazo especial (ingresalo a mano)</option>
+          </select>
+        </div>
+        <div class="field" id="prCustomWrap" style="display:none;"><label for="prAnios">Plazo (años)</label><input id="prAnios" type="number" step="0.5" placeholder="Ej: 2"></div>
+        <div class="field"><label for="prInicio">Inicio del cómputo (exigibilidad / hecho)</label><input id="prInicio" type="date"></div>
+      </div>
+      <button class="btn btn-brand" id="prCalcularBtn">Calcular prescripción</button>
+      <div id="prResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ El cálculo no contempla suspensión, interrupción ni dispensa (arts. 2539 a 2572 CCyC), plazos especiales de leyes particulares ni la prescripción penal. El inicio del cómputo puede discutirse (teoría del conocimiento del daño). Es una alerta de trabajo — el análisis fino es tuyo.</p>
+  </section>
+
+  <!-- MODELOS -->
   <section class="panel" id="panel-modelos">
     <h2>📝 Modelos de escritos</h2>
-    <p class="sub">Biblioteca de modelos (demanda, cautelares, recursos) adaptados por la IA a tu caso y jurisdicción.</p>
-    <div class="card"><p class="empty">🔄 Fase 2 del roadmap. Mientras tanto, el chat ya redacta borradores de escritos si le pasás los hechos y la jurisdicción.</p></div>
+    <p class="sub">Elegí el tipo de escrito, indicá jurisdicción y hechos, y la IA genera un borrador completo con campos [ENTRE CORCHETES] para completar.</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field">
+          <label for="moTipo">Tipo de escrito</label>
+          <select id="moTipo">
+            <option>Demanda de daños y perjuicios</option>
+            <option>Contestación de demanda</option>
+            <option>Medida cautelar (embargo preventivo)</option>
+            <option>Recurso de apelación (expresión de agravios)</option>
+            <option>Carta documento (intimación)</option>
+            <option>Demanda laboral (despido)</option>
+            <option>Demanda de desalojo</option>
+            <option>Alegato</option>
+            <option>Convenio de honorarios</option>
+            <option>Otro (describilo en los hechos)</option>
+          </select>
+        </div>
+        <div class="field"><label for="moJurisdiccion">Jurisdicción</label><input id="moJurisdiccion" type="text" placeholder="Ej: Entre Ríos, fuero civil"></div>
+      </div>
+      <div class="field"><label for="moHechos">Hechos del caso y datos relevantes</label><textarea id="moHechos" rows="4" placeholder="Ej: accidente de tránsito el 12/03/2026 en Paraná, colisión trasera, lesiones leves, demandado asegurado en X, reclamo $8.000.000..."></textarea></div>
+      <button class="btn btn-brand" id="moGenerarBtn">Generar borrador</button>
+      <div id="moResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ Es un borrador de trabajo: revisá requisitos formales del código procesal local, tasa de justicia, y completá los campos [ENTRE CORCHETES] antes de presentar. Verificá toda cita incluida.</p>
+  </section>
+
+  <!-- HONORARIOS -->
+  <section class="panel" id="panel-honorarios">
+    <h2>💰 Estimador de honorarios</h2>
+    <p class="sub">Estimación orientativa de honorarios regulables según la ley arancelaria de la jurisdicción (UMA, JUS, IUS o porcentual sobre el monto del proceso).</p>
+    <div class="card">
+      <div class="grid-form">
+        <div class="field"><label for="hoJurisdiccion">Jurisdicción</label>
+          <select id="hoJurisdiccion">
+            <option>Nacional / Federal (Ley 27.423 — UMA)</option>
+            <option>Provincia de Buenos Aires (Ley 14.967 — JUS)</option>
+            <option>CABA (Ley 5.134)</option>
+            <option>Entre Ríos (Ley 7.046)</option>
+            <option>Santa Fe (Ley 6.767)</option>
+            <option>Córdoba (Ley 9.459)</option>
+            <option>Otra (indicala en la consulta)</option>
+          </select>
+        </div>
+        <div class="field"><label for="hoFuero">Fuero / tipo de proceso</label><input id="hoFuero" type="text" placeholder="Ej: civil, daños y perjuicios, proceso ordinario"></div>
+        <div class="field"><label for="hoMonto">Monto del proceso ($, opcional)</label><input id="hoMonto" type="number" placeholder="8000000"></div>
+        <div class="field"><label for="hoEtapa">Etapas cumplidas</label>
+          <select id="hoEtapa">
+            <option>Todas las etapas (juicio completo)</option>
+            <option>Primera etapa (demanda/contestación)</option>
+            <option>Dos etapas (hasta prueba)</option>
+            <option>Extrajudicial</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-brand" id="hoEstimarBtn">Estimar honorarios</button>
+      <div id="hoResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ Estimación de IA con la escala arancelaria que conoce: el valor de la UMA/JUS/IUS se actualiza con frecuencia y la regulación final es facultad del juez. Verificá el valor vigente de la unidad en el sitio de tu colegio o del poder judicial antes de pactar o pedir regulación.</p>
+  </section>
+
+  <!-- TRADUCTOR PARA CLIENTES -->
+  <section class="panel" id="panel-cliente">
+    <h2>🗣️ Traductor jurídico → cliente</h2>
+    <p class="sub">Pegá una resolución, sentencia o cédula (o su parte resolutiva) y obtené un mensaje en lenguaje llano, listo para mandarle al cliente por WhatsApp.</p>
+    <div class="card">
+      <div class="field"><label for="clTexto">Texto jurídico a traducir</label><textarea id="clTexto" rows="5" placeholder="Ej: AUTOS Y VISTOS... RESUELVO: I) Hacer lugar parcialmente a la demanda... II) Imponer las costas en un 70% a la demandada..."></textarea></div>
+      <div class="grid-form">
+        <div class="field"><label for="clNombre">Nombre del cliente (opcional)</label><input id="clNombre" type="text" placeholder="Ej: Marta"></div>
+        <div class="field"><label for="clTono">Resultado para el cliente</label>
+          <select id="clTono">
+            <option>Favorable / buena noticia</option>
+            <option>Parcialmente favorable</option>
+            <option>Desfavorable / mala noticia</option>
+            <option>Trámite neutro (avance del expediente)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-brand" id="clTraducirBtn">Traducir para el cliente</button>
+      <div id="clResult"></div>
+    </div>
+    <p class="disclaimer">⚠️ Revisá el mensaje antes de enviarlo: la IA simplifica y puede omitir un matiz importante. El mensaje no debe crear expectativas que el expediente no respalde.</p>
   </section>
 
   <!-- MEMORIA / BACKUP -->
@@ -585,7 +711,13 @@ async function buildFileBlock(file){
 }
 
 /* ---------- Chat ---------- */
-const SYSTEM_CHAT = `Sos JurIA, asistente jurídico con IA para abogados, procuradores y magistrados de Argentina. Ayudás con: consultas de derecho argentino de fondo y procesal (nacional y provincial), estrategia procesal, redacción de borradores de escritos (demandas, contestaciones, cautelares, recursos, cartas documento), cálculo orientativo de intereses y plazos, y análisis de documentos adjuntos (PDF o foto de demandas, contratos, sentencias, cédulas). Hablás con profesionales del derecho: usá lenguaje técnico preciso, en español rioplatense, claro y al grano. Citá artículos de códigos y leyes cuando corresponda (CCyC, CPCCN, LCT, CP, códigos provinciales), aclarando la jurisdicción. REGLAS CRÍTICAS: 1) NUNCA inventes citas de jurisprudencia con carátula, tribunal y fecha como si fueran verificadas — si mencionás líneas jurisprudenciales, aclarà que el profesional debe verificar los fallos en SAIJ, CSJN o su editorial jurídica antes de citarlos en un escrito. 2) Si una cuestión depende de normativa provincial o de acordadas locales que podés no tener actualizadas, decilo. 3) Tus respuestas son apoyo al criterio profesional, no dictamen ni asesoramiento al cliente final. 4) Si te piden un escrito, entregá un borrador completo y bien estructurado, con los espacios [ENTRE CORCHETES] para los datos que falten.`;
+const SYSTEM_CHAT = `Sos JurIA: abogado consultor, pedagogo y redactor experto en derecho argentino, asistente de abogados, procuradores y magistrados, con especial enfoque en la normativa de la provincia que te indiquen. Tu objetivo es analizar hechos, pruebas y documentos legales para estructurar opciones estratégicas concretas.
+
+FUENTES — al desarrollar los caminos a seguir, fundamentá tus sugerencias en este orden: 1) la legislación aplicable (CCyC, CPCCN, LCT, CP, códigos y leyes provinciales, citando artículos y aclarando jurisdicción); 2) la JURISPRUDENCIA aplicable: siempre que sea pertinente, traé las líneas jurisprudenciales, doctrinas de la CSJN y fallos plenarios que conozcas sobre la cuestión, explicando qué doctrina sientan y cómo juegan a favor o en contra de cada estrategia; 3) la COSTUMBRE y los usos y prácticas jurídicas del lugar (art. 1 CCyC: los usos, prácticas y costumbres son vinculantes cuando las leyes se refieren a ellos o en situaciones no regladas, si no son contrarios a derecho) — incluí las prácticas forenses locales cuando aporten a la estrategia. En casos complejos o novedosos sin respuesta normativa ni precedentes claros, razoná de forma autónoma desde los principios generales del derecho (buena fe, abuso del derecho, equidad, pro homine, in dubio pro operario/reo según la materia) y la analogía, explicitando ese razonamiento.
+
+TONO — profesional, analítico, prudente y empático; lenguaje técnico preciso en español rioplatense, claro y al grano. Estás hablando con profesionales del derecho.
+
+REGLAS CRÍTICAS: 1) NUNCA inventes citas de jurisprudencia con carátula, tribunal y fecha como si fueran verificadas — cuando cites precedentes o plenarios, indicá los datos que recuerdes marcándolos como "a verificar" y recordá que deben chequearse en SAIJ, CSJN o la editorial jurídica antes de usarlos en un escrito. 2) Si una cuestión depende de normativa provincial, acordadas o costumbre local que podés no tener actualizadas, decilo. 3) Tu análisis es orientativo: apoyo al criterio profesional, no dictamen ni asesoramiento al cliente final. 4) Si te piden un escrito, entregá un borrador completo y bien estructurado, con espacios [ENTRE CORCHETES] para los datos que falten.`;
 let chatHistory = [];
 let chatAttach = null;
 
@@ -964,8 +1096,9 @@ const SYS_ANALIZADOR = `Sos un analista de documentos jurídicos para abogados a
 **Puntos fuertes** (del documento o de la posición de quien lo redactó)
 **Puntos débiles y flancos atacables** (defectos formales, argumentos vulnerables, prueba floja, cláusulas riesgosas)
 **Plazos y cargas** (qué plazos corren a partir de este documento y para quién, con el código procesal aplicable si se identifica la jurisdicción)
-**Sugerencias de acción** (3-5 pasos concretos para el profesional)
-Reglas: lenguaje técnico rioplatense, conciso. NUNCA inventes jurisprudencia con carátula y fecha como verificada. Si el texto está incompleto o ilegible en partes, decilo. Si el usuario hace una consulta específica, respondela dentro de la sección que corresponda y ampliá al final bajo **Respuesta a tu consulta**. Cerrá siempre con la línea: "Este análisis es un borrador de apoyo — verificá el documento original y las citas antes de actuar."`;
+**Jurisprudencia y costumbre aplicables** (líneas jurisprudenciales, plenarios o doctrina de la CSJN que conozcas sobre la cuestión —marcados como "a verificar"—, y usos o prácticas del lugar relevantes conforme al art. 1 CCyC)
+**Sugerencias de acción** (3-5 pasos concretos para el profesional, fundados en la legislación, la jurisprudencia y la costumbre citadas)
+Reglas: lenguaje técnico rioplatense, conciso, prudente y empático. NUNCA inventes jurisprudencia con carátula y fecha como verificada — marcá todo precedente como "a verificar". En cuestiones novedosas sin precedente claro, razoná desde los principios generales del derecho y decilo. Si el texto está incompleto o ilegible en partes, decilo. Si el usuario hace una consulta específica, respondela dentro de la sección que corresponda y ampliá al final bajo **Respuesta a tu consulta**. Cerrá siempre con la línea: "Este análisis es un borrador de apoyo — verificá el documento original y las citas antes de actuar."`;
 let anArchivo = null;
 $('anDrop').addEventListener('click', ()=>$('anFile').click());
 $('anDrop').addEventListener('dragover', e=>{ e.preventDefault(); $('anDrop').style.borderColor='var(--brand-light)'; });
@@ -987,7 +1120,8 @@ $('anAnalizarBtn').addEventListener('click', async () => {
   $('anResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
   try{
     const content = [ await buildFileBlock(anArchivo) ];
-    content.push({ type:'text', text: `Tipo de documento: ${tipo}.` + (pregunta ? ` Consulta específica: ${pregunta}` : '') + ' Analizalo según tu estructura.' });
+    const quiereRedline = $('anRedline').checked;
+    content.push({ type:'text', text: `Tipo de documento: ${tipo}.` + (pregunta ? ` Consulta específica: ${pregunta}` : '') + ' Analizalo según tu estructura.' + (quiereRedline ? ' Además, agregá al final una sección **Redline de cláusulas** con las 3-6 cláusulas más riesgosas en este formato por cada una: cláusula original (cita textual abreviada) → redacción sugerida → riesgo que mitiga.' : '') });
     const reply = await callClaude([{ role:'user', content }], SYS_ANALIZADOR, 2500);
     $('anResult').innerHTML = `<div class="result-box" style="white-space:pre-wrap;">${mdLite(reply)}</div>
       <button class="btn btn-ghost" style="margin-top:12px;" id="anGuardarBtn">💾 Registrar análisis</button>`;
@@ -1001,6 +1135,150 @@ $('anAnalizarBtn').addEventListener('click', async () => {
     $('anResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
   } finally {
     btn.disabled = false; btn.textContent = 'Analizar documento';
+  }
+});
+
+/* ---------- Jurisprudencia asistida ---------- */
+const SYS_JURISPRUDENCIA = `Sos un asistente de investigación jurisprudencial para abogados argentinos. Te dan una cuestión jurídica, opcionalmente jurisdicción/fuero y la postura a fundar. Respondé con esta estructura EXACTA usando títulos en negrita con **:
+**Líneas jurisprudenciales conocidas** (las doctrinas y criterios asentados que conozcas sobre la cuestión: qué sostiene cada línea, qué tribunales la siguen, y los leading cases o plenarios que recuerdes con sus datos SIEMPRE marcados "(a verificar)")
+**Criterios a favor de tu postura** (si indicaron postura: qué línea y argumentos la apoyan; si no, omití esta sección)
+**Criterios en contra a tener mapeados** (la jurisprudencia adversa que la contraparte podría invocar)
+**Términos de búsqueda sugeridos** (4-6 strings de búsqueda concretos, entre comillas, con voces del tesauro jurídico y sinónimos, listos para pegar en SAIJ y en el buscador de la CSJN)
+**Advertencia** (recordá que tu conocimiento tiene fecha de corte, que puede haber fallos posteriores, y que toda cita debe verificarse en SAIJ/CSJN antes de usarse)
+Lenguaje técnico rioplatense, conciso. NUNCA presentes una carátula/fecha como verificada.`;
+$('juBuscarBtn').addEventListener('click', async () => {
+  const tema = $('juTema').value.trim();
+  if (!tema){ alert('Describí primero la cuestión jurídica.'); return; }
+  const jur = $('juJurisdiccion').value.trim();
+  const postura = $('juPostura').value.trim();
+  const btn = $('juBuscarBtn');
+  btn.disabled = true; btn.textContent = 'Analizando...';
+  $('juResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const reply = await callClaude([{ role:'user', content: `Cuestión: ${tema}\n${jur ? 'Jurisdicción/fuero: '+jur : ''}\n${postura ? 'Postura a fundar: '+postura : ''}` }], SYS_JURISPRUDENCIA, 1800);
+    $('juResult').innerHTML = `<div class="result-box" style="white-space:pre-wrap;">${mdLite(reply)}</div>`;
+  }catch(e){
+    $('juResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Orientarme sobre la jurisprudencia';
+  }
+});
+
+/* ---------- Prescripción (determinístico, sin IA) ---------- */
+$('prAccion').addEventListener('change', () => {
+  $('prCustomWrap').style.display = $('prAccion').value.startsWith('custom') ? 'block' : 'none';
+});
+$('prCalcularBtn').addEventListener('click', () => {
+  const [plazoRaw, base] = $('prAccion').value.split('|');
+  const inicio = $('prInicio').value;
+  if (!inicio){ alert('Ingresá la fecha de inicio del cómputo.'); return; }
+  let anios = plazoRaw === 'custom' ? parseFloat($('prAnios').value) : parseFloat(plazoRaw);
+  if (!anios || anios <= 0){ alert('Ingresá el plazo en años.'); return; }
+  const d = new Date(inicio + 'T12:00:00');
+  const fin = new Date(d);
+  fin.setMonth(fin.getMonth() + Math.round(anios * 12));
+  const hoy = new Date(); hoy.setHours(12,0,0,0);
+  const diffDias = Math.round((fin - hoy) / 86400000);
+  const finIso = fin.toISOString().slice(0,10);
+  let pill, msg;
+  if (diffDias < 0){ pill = '<span class="pill bad">Prescripta (estimado)</span>'; msg = 'El plazo venció hace '+Math.abs(diffDias)+' días. Revisá si hubo suspensión o interrupción que lo modifique.'; }
+  else if (diffDias <= 180){ pill = '<span class="pill warn">Quedan '+diffDias+' días</span>'; msg = 'Menos de 6 meses de margen: priorizá la promoción de la acción o un acto interruptivo.'; }
+  else { pill = '<span class="pill ok">Quedan '+diffDias+' días</span>'; msg = 'Margen razonable, pero agendá un recordatorio con anticipación.'; }
+  $('prResult').innerHTML = `
+    <div class="result-box">
+      <div class="big">${fmtFecha(finIso)}</div>
+      <div class="row-mini"><span>Plazo aplicado</span><span>${anios} año${anios===1?'':'s'} — ${base}</span></div>
+      <div class="row-mini"><span>Inicio del cómputo</span><span>${fmtFecha(inicio)}</span></div>
+      <div class="row-mini"><span>Estado</span><span>${pill}</span></div>
+      <p style="margin-top:10px;font-size:13px;color:var(--muted);">${msg}</p>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="prAgendaBtn">⏰ Guardar en agenda</button>
+    </div>`;
+  $('prAgendaBtn').addEventListener('click', () => {
+    const caratula = prompt('Carátula o referencia:', '');
+    if (caratula === null) return;
+    agregarVencimiento((caratula || 'Prescripción') + ' — prescripción', finIso, base);
+    alert('✅ Guardado en la agenda de vencimientos.');
+  });
+});
+
+/* ---------- Modelos de escritos ---------- */
+const SYS_MODELOS = `Sos un redactor experto de escritos judiciales argentinos. Te dan el tipo de escrito, la jurisdicción y los hechos del caso. Redactá un BORRADOR COMPLETO y bien estructurado del escrito, con la estructura forense usual (encabezado con SUMARIO, objeto, personería, hechos, derecho, prueba si corresponde, petitorio), adaptado al código procesal de la jurisdicción indicada. Usá [CORCHETES] para todo dato que falte (carátula, expediente, domicilios, matrícula, montos). Fundá el derecho citando artículos de las normas aplicables aclarando la jurisdicción; si mencionás jurisprudencia, marcala como "a verificar". Lenguaje forense rioplatense, preciso y sobrio. Cerrá con la línea: "Borrador de trabajo — revisar requisitos formales locales y verificar citas antes de presentar."`;
+$('moGenerarBtn').addEventListener('click', async () => {
+  const tipo = $('moTipo').value;
+  const jur = $('moJurisdiccion').value.trim() || 'Nacional';
+  const hechos = $('moHechos').value.trim();
+  if (!hechos){ alert('Contá los hechos del caso primero.'); return; }
+  const btn = $('moGenerarBtn');
+  btn.disabled = true; btn.textContent = 'Redactando...';
+  $('moResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const reply = await callClaude([{ role:'user', content: `Tipo de escrito: ${tipo}\nJurisdicción: ${jur}\nHechos: ${hechos}` }], SYS_MODELOS, 3000);
+    $('moResult').innerHTML = `<div class="result-box" style="white-space:pre-wrap;">${mdLite(reply)}</div>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="moCopiarBtn">📋 Copiar borrador</button>`;
+    $('moCopiarBtn').addEventListener('click', async () => {
+      try{ await navigator.clipboard.writeText(reply); $('moCopiarBtn').textContent = '✅ Copiado'; }
+      catch(e){ alert('No se pudo copiar automáticamente — seleccioná el texto a mano.'); }
+    });
+  }catch(e){
+    $('moResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Generar borrador';
+  }
+});
+
+/* ---------- Honorarios ---------- */
+const SYS_HONORARIOS = `Sos un asistente de estimación de honorarios profesionales de abogados en Argentina. Te dan jurisdicción (con su ley arancelaria), fuero/tipo de proceso, monto del proceso (opcional) y etapas cumplidas. Respondé SOLO con un JSON (sin texto extra, sin markdown):
+{"estimacion_min": number|null, "estimacion_max": number|null, "unidad": string, "base_legal": string, "detalle": string, "advertencia": string}
+Donde: estimacion_min/max son tu estimación en $ARS del rango regulable (null si no podés estimar sin el monto); unidad indica la unidad arancelaria y el último valor que conozcas aclarando la fecha (ej: "UMA Ley 27.423, valor a [fecha] aprox $X — VERIFICAR valor vigente"); base_legal cita los artículos de la ley arancelaria aplicados (escala porcentual, mínimos, etapas); detalle explica el cálculo en 2-3 frases; advertencia SIEMPRE aclara que la regulación es judicial, que el valor de la unidad cambia con frecuencia y dónde verificarlo (colegio de abogados / poder judicial). No inventes valores actuales de la unidad con falsa precisión: usá el último que conozcas y marcalo como a verificar.`;
+$('hoEstimarBtn').addEventListener('click', async () => {
+  const jur = $('hoJurisdiccion').value;
+  const fuero = $('hoFuero').value.trim() || 'civil';
+  const monto = $('hoMonto').value;
+  const etapa = $('hoEtapa').value;
+  const btn = $('hoEstimarBtn');
+  btn.disabled = true; btn.textContent = 'Estimando...';
+  $('hoResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const reply = await callClaude([{ role:'user', content: `Jurisdicción: ${jur}\nFuero/proceso: ${fuero}\n${monto ? 'Monto del proceso: $'+monto : 'Sin monto determinado'}\nEtapas: ${etapa}` }], SYS_HONORARIOS, 800);
+    const data = parseJson(reply);
+    const rango = (data.estimacion_min != null && data.estimacion_max != null) ? fmt(data.estimacion_min)+' — '+fmt(data.estimacion_max) : 'Sin monto no se puede estimar el rango';
+    $('hoResult').innerHTML = `
+      <div class="result-box">
+        <div class="big" style="font-size:20px;">${rango}</div>
+        <div class="row-mini"><span>Unidad arancelaria</span><span>${data.unidad}</span></div>
+        <div class="row-mini"><span>Base legal</span><span>${data.base_legal}</span></div>
+        <p style="margin-top:10px;font-size:13px;color:var(--muted);">${data.detalle}</p>
+        <p style="margin-top:8px;font-size:13px;"><strong>⚠️ ${data.advertencia}</strong></p>
+      </div>`;
+  }catch(e){
+    $('hoResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Estimar honorarios';
+  }
+});
+
+/* ---------- Traductor para clientes ---------- */
+const SYS_CLIENTE = `Sos el traductor jurídico→cliente de un estudio de abogados argentino. Te dan el texto de una resolución/sentencia/cédula, el nombre del cliente y si el resultado es favorable, parcial, desfavorable o neutro. Redactá un mensaje breve (estilo WhatsApp, 4-8 oraciones) en lenguaje llano y cálido pero profesional, SIN jerga jurídica (nada de "autos", "traslado", "intímese" sin explicar), que: 1) salude por el nombre si lo dieron; 2) explique qué pasó en el expediente y qué significa en la práctica; 3) diga qué sigue ahora y si el cliente tiene que hacer algo; 4) cierre poniéndose a disposición. Empatía acorde al resultado (sin triunfalismo excesivo ni dramatismo). No inventes datos que no estén en el texto; si un punto clave no surge, poné [CONSULTAR CON EL ABOGADO]. Respondé SOLO con el mensaje, sin encabezados.`;
+$('clTraducirBtn').addEventListener('click', async () => {
+  const texto = $('clTexto').value.trim();
+  if (!texto){ alert('Pegá primero el texto a traducir.'); return; }
+  const nombre = $('clNombre').value.trim();
+  const tono = $('clTono').value;
+  const btn = $('clTraducirBtn');
+  btn.disabled = true; btn.textContent = 'Traduciendo...';
+  $('clResult').innerHTML = '<p class="loading" style="margin-top:12px;"><span></span><span></span><span></span></p>';
+  try{
+    const reply = await callClaude([{ role:'user', content: `Cliente: ${nombre || '(sin nombre)'}\nResultado: ${tono}\nTexto:\n${texto.slice(0,15000)}` }], SYS_CLIENTE, 700);
+    $('clResult').innerHTML = `<div class="result-box" style="white-space:pre-wrap;">${mdLite(reply)}</div>
+      <button class="btn btn-ghost" style="margin-top:12px;" id="clCopiarBtn">📋 Copiar mensaje</button>`;
+    $('clCopiarBtn').addEventListener('click', async () => {
+      try{ await navigator.clipboard.writeText(reply); $('clCopiarBtn').textContent = '✅ Copiado'; }
+      catch(e){ alert('No se pudo copiar automáticamente — seleccioná el texto a mano.'); }
+    });
+  }catch(e){
+    $('clResult').innerHTML = `<p class="result-box" style="color:var(--bad);">${errMsg(e)}</p>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Traducir para el cliente';
   }
 });
 </script>

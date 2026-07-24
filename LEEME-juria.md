@@ -14,6 +14,9 @@
   - `og-image.png` (1200×630, WhatsApp/redes)
   - `site.webmanifest` (PWA, apunta a `agente-juria.html`)
 
+## Módulos del agente (v2)
+Chat jurídico (con jurisprudencia y costumbre como fuentes), Intereses, Plazos procesales, **Prescripción (semáforo)**, Agenda, Analizador de escritos (**con redline de contratos opcional**), **Modelos de escritos**, **Estimador de honorarios**, **Traductor jurídico→cliente**, Backup Sheets. Página extra: `codigos.html` (links oficiales verificados a códigos de fondo/procesales, DIPr, fuentes y diccionarios).
+
 ## Ya incluido (no hace falta copiar nada de otro producto)
 - `bento.css` propio de JurIA (paleta bordó/dorado)
 - `tracker.js` con `landing='JurIA'` — reporta cada página al webhook `labstudio-visitas`, separado de FarmaIA y el resto
